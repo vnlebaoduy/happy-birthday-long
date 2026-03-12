@@ -775,89 +775,133 @@
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       let ctx;
       let master;
-      let padGain;
-      let bassGain;
-      let lfo;
-      let noteTimers = [];
-      let running = false;
+      let reverb;
+      let playing = false;
+      let stopRequested = false;
+      let melodyRun = 0;
 
-      const padNotes = [261.63, 329.63, 392.0, 523.25];
-      const bassNotes = [65.41, 87.31, 98.0, 73.42];
+      const NOTE = {
+        C4: 261.63,
+        D4: 293.66,
+        E4: 329.63,
+        F4: 349.23,
+        G4: 392.0,
+        A4: 440.0,
+        Bb4: 466.16,
+        C5: 523.25,
+        D5: 587.33,
+        F5: 698.46,
+        G5: 783.99,
+        A5: 880.0
+      };
 
-      function createTone(freq, type, gainValue) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = type;
-        osc.frequency.value = freq;
-        gain.gain.value = gainValue;
-        return { osc, gain };
+      const melody = [
+        ['G4', 0.42], ['G4', 0.22], ['A4', 0.66], ['G4', 0.66], ['C5', 0.66], ['B4', 1.0],
+        ['G4', 0.42], ['G4', 0.22], ['A4', 0.66], ['G4', 0.66], ['D5', 0.66], ['C5', 1.0],
+        ['G4', 0.42], ['G4', 0.22], ['G5', 0.66], ['E5', 0.66], ['C5', 0.66], ['B4', 0.66], ['A4', 1.0],
+        ['F5', 0.42], ['F5', 0.22], ['E5', 0.66], ['C5', 0.66], ['D5', 0.66], ['C5', 1.2]
+      ];
+
+      function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
       }
 
       function buildAudio() {
         ctx = new AudioCtx();
         master = ctx.createGain();
-        master.gain.value = 0.06;
+        master.gain.value = 0.0;
         master.connect(ctx.destination);
 
-        padGain = ctx.createGain();
-        padGain.gain.value = 0.0;
-        padGain.connect(master);
+        reverb = ctx.createConvolver();
+        reverb.buffer = createImpulse(ctx, 1.8, 1.9);
+        const wet = ctx.createGain();
+        wet.gain.value = 0.22;
+        reverb.connect(wet);
+        wet.connect(master);
+      }
 
-        bassGain = ctx.createGain();
-        bassGain.gain.value = 0.0;
-        bassGain.connect(master);
+      function createImpulse(audioCtx, duration, decay) {
+        const rate = audioCtx.sampleRate;
+        const length = rate * duration;
+        const impulse = audioCtx.createBuffer(2, length, rate);
+        for (let ch = 0; ch < 2; ch++) {
+          const channel = impulse.getChannelData(ch);
+          for (let i = 0; i < length; i++) {
+            const n = Math.random() * 2 - 1;
+            channel[i] = n * Math.pow(1 - i / length, decay);
+          }
+        }
+        return impulse;
+      }
 
+      function playBell(freq, start, duration) {
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
         const filter = ctx.createBiquadFilter();
+
+        osc1.type = 'sine';
+        osc2.type = 'triangle';
+        osc1.frequency.setValueAtTime(freq, start);
+        osc2.frequency.setValueAtTime(freq * 2, start);
+
         filter.type = 'lowpass';
-        filter.frequency.value = 900;
-        filter.Q.value = 0.4;
-        padGain.connect(filter);
-        filter.connect(master);
+        filter.frequency.setValueAtTime(2600, start);
+        filter.Q.value = 0.8;
 
-        const p1 = createTone(padNotes[0], 'sine', 0.18);
-        const p2 = createTone(padNotes[1], 'triangle', 0.12);
-        const p3 = createTone(padNotes[2], 'sine', 0.08);
-        [p1, p2, p3].forEach(t => {
-          t.osc.connect(t.gain);
-          t.gain.connect(padGain);
-          t.osc.start();
-        });
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.linearRampToValueAtTime(0.12, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.03, start + duration * 0.45);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration + 0.45);
 
-        const bass = createTone(bassNotes[0], 'triangle', 0.22);
-        bass.osc.connect(bass.gain);
-        bass.gain.connect(bassGain);
-        bass.osc.start();
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(master);
+        gain.connect(reverb);
 
-        lfo = ctx.createOscillator();
-        const lfoGain = ctx.createGain();
-        lfo.frequency.value = 0.08;
-        lfoGain.gain.value = 110;
-        lfo.connect(lfoGain);
-        lfoGain.connect(filter.frequency);
-        lfo.start();
+        osc1.start(start);
+        osc2.start(start);
+        osc1.stop(start + duration + 0.5);
+        osc2.stop(start + duration + 0.5);
+      }
 
-        noteTimers.push(setInterval(() => {
-          if (!running) return;
-          const now = ctx.currentTime;
-          const note = padNotes[Math.floor(Math.random() * padNotes.length)];
-          const shimmer = ctx.createOscillator();
-          const shimmerGain = ctx.createGain();
-          shimmer.type = 'sine';
-          shimmer.frequency.setValueAtTime(note * 2, now);
-          shimmerGain.gain.setValueAtTime(0, now);
-          shimmerGain.gain.linearRampToValueAtTime(0.018, now + 0.4);
-          shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.6);
-          shimmer.connect(shimmerGain);
-          shimmerGain.connect(master);
-          shimmer.start(now);
-          shimmer.stop(now + 2.7);
-        }, 2200));
+      function playPad(freq, start, duration) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
 
-        noteTimers.push(setInterval(() => {
-          if (!running) return;
-          const freq = bassNotes[Math.floor(Math.random() * bassNotes.length)];
-          bass.osc.frequency.linearRampToValueAtTime(freq, ctx.currentTime + 1.2);
-        }, 3600));
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq / 2, start);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(900, start);
+
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.linearRampToValueAtTime(0.022, start + 0.25);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration + 0.35);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(master);
+
+        osc.start(start);
+        osc.stop(start + duration + 0.5);
+      }
+
+      async function playLoop() {
+        const runId = ++melodyRun;
+        while (playing && !stopRequested && runId === melodyRun) {
+          let pointer = ctx.currentTime + 0.08;
+          melody.forEach(([name, beats]) => {
+            const seconds = beats * 0.72;
+            playBell(NOTE[name], pointer, Math.max(0.22, seconds * 0.9));
+            if (['G4', 'C5', 'D5', 'F5'].includes(name)) {
+              playPad(NOTE[name], pointer, seconds + 0.3);
+            }
+            pointer += seconds;
+          });
+          await wait((pointer - ctx.currentTime) * 1000 + 240);
+        }
       }
 
       async function turnOn() {
@@ -868,24 +912,22 @@
         }
         if (!ctx) buildAudio();
         if (ctx.state === 'suspended') await ctx.resume();
-        running = true;
-        padGain.gain.cancelScheduledValues(ctx.currentTime);
-        bassGain.gain.cancelScheduledValues(ctx.currentTime);
+        stopRequested = false;
+        playing = true;
         master.gain.cancelScheduledValues(ctx.currentTime);
-        master.gain.setTargetAtTime(0.075, ctx.currentTime, 1.4);
-        padGain.gain.setTargetAtTime(0.65, ctx.currentTime, 2.8);
-        bassGain.gain.setTargetAtTime(0.24, ctx.currentTime, 2.2);
+        master.gain.setTargetAtTime(0.24, ctx.currentTime, 0.6);
         btn.dataset.state = 'on';
         btn.setAttribute('aria-pressed', 'true');
         label.textContent = 'Tắt nhạc nền';
+        playLoop();
       }
 
       function turnOff() {
         if (!ctx) return;
-        running = false;
-        padGain.gain.setTargetAtTime(0.0, ctx.currentTime, 0.8);
-        bassGain.gain.setTargetAtTime(0.0, ctx.currentTime, 0.8);
-        master.gain.setTargetAtTime(0.0, ctx.currentTime, 1.0);
+        stopRequested = true;
+        playing = false;
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.35);
         btn.dataset.state = 'off';
         btn.setAttribute('aria-pressed', 'false');
         label.textContent = 'Bật nhạc nền';
@@ -895,8 +937,6 @@
         if (btn.dataset.state === 'on') turnOff();
         else await turnOn();
       });
-
-      window.addEventListener('beforeunload', () => noteTimers.forEach(clearInterval));
     })();
   </script>
 </body>
