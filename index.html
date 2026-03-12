@@ -3,1091 +3,883 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Long 🛰️</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Happy Birthday Dr. Long 🛰️</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#020810;--cyan:#00e5ff;--gold:#ffd54f;--rose:#ff4081;
+  --violet:#b388ff;--blue:#448aff;--teal:#64ffda;
+  --text:#edf2ff;--dim:rgba(237,242,255,.5);
+  --gcyan:0 0 40px rgba(0,229,255,.25);
+  --ggold:0 0 40px rgba(255,213,79,.25);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 
-:root {
-  --bg-deep: #030712;
-  --bg-mid: #0a1628;
-  --accent-cyan: #06d6f2;
-  --accent-gold: #f0c040;
-  --accent-rose: #ff3c78;
-  --accent-violet: #8b5cf6;
-  --accent-blue: #3b82f6;
-  --text-primary: #f0f4ff;
-  --text-secondary: rgba(240, 244, 255, 0.6);
-  --glow-cyan: 0 0 40px rgba(6, 214, 242, 0.3);
-  --glow-gold: 0 0 40px rgba(240, 192, 64, 0.3);
-}
+/* ===== PRELOADER ===== */
+#preloader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 1s,visibility 1s}
+#preloader.gone{opacity:0;visibility:hidden;pointer-events:none}
+.ld-orbit{width:80px;height:80px;position:relative}
+.ld-orbit .ring{position:absolute;inset:0;border:2px solid transparent;border-radius:50%}
+.ld-orbit .ring:nth-child(1){border-top-color:var(--cyan);animation:sp .9s linear infinite}
+.ld-orbit .ring:nth-child(2){border-right-color:var(--gold);animation:sp 1.2s linear infinite reverse;inset:8px}
+.ld-orbit .ring:nth-child(3){border-bottom-color:var(--rose);animation:sp 1.6s linear infinite;inset:16px}
+.ld-orbit .core{position:absolute;top:50%;left:50%;width:6px;height:6px;margin:-3px;background:var(--cyan);border-radius:50%;box-shadow:0 0 12px var(--cyan)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ld-text{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--cyan)}
+.ld-bar{width:200px;height:2px;background:rgba(0,229,255,.1);border-radius:2px;overflow:hidden}
+.ld-bar i{display:block;height:100%;background:var(--cyan);animation:ldbar 1.8s ease-in-out forwards}
+@keyframes ldbar{0%{width:0}100%{width:100%}}
 
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
+/* ===== 3D CANVAS ===== */
+#scene3d{position:fixed;inset:0;z-index:0}
 
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg-deep);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  cursor: default;
-}
+/* ===== FIREWORKS ===== */
+#fwCanvas{position:fixed;inset:0;z-index:2;pointer-events:none}
 
-/* ========== PRELOADER ========== */
-#preloader {
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--bg-deep);
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 24px;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-#preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-ring {
-  width: 60px; height: 60px;
-  border: 3px solid rgba(6,214,242,0.1);
-  border-top-color: var(--accent-cyan);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-.loader-text {
-  font-family: 'Space Mono', monospace;
-  font-size: 13px;
-  color: var(--accent-cyan);
-  letter-spacing: 4px;
-  text-transform: uppercase;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* ===== SHOOTING STARS ===== */
+.shooting-star{position:fixed;width:120px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent);opacity:0;z-index:1;pointer-events:none;filter:blur(.3px);animation:none}
 
-/* ========== STAR FIELD ========== */
-#starfield {
-  position: fixed; inset: 0; z-index: 0;
-  pointer-events: none;
-}
+/* ===== SECTIONS ===== */
+section{position:relative;z-index:3}
 
-/* ========== FIREWORKS CANVAS ========== */
-#fireworks {
-  position: fixed; inset: 0; z-index: 2;
-  pointer-events: none;
-}
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 20%,transparent 70%);animation:gp 8s ease-in-out infinite}
+@keyframes gp{0%,100%{opacity:.3}50%{opacity:.8}}
 
-/* ========== GLOBAL SECTIONS ========== */
-section {
-  position: relative;
-  z-index: 3;
-}
+.hero-content{position:relative;z-index:5;padding:0 24px}
 
-/* ========== HERO ========== */
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+/* HUD corners */
+.hud-frame{position:absolute;width:100%;height:100%;pointer-events:none;z-index:4}
+.hud-corner{position:absolute;width:60px;height:60px;border-color:rgba(0,229,255,.15);border-style:solid}
+.hud-tl{top:30px;left:30px;border-width:1px 0 0 1px}
+.hud-tr{top:30px;right:30px;border-width:1px 1px 0 0}
+.hud-bl{bottom:30px;left:30px;border-width:0 0 1px 1px}
+.hud-br{bottom:30px;right:30px;border-width:0 1px 1px 0}
+.hud-label{position:absolute;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(0,229,255,.3);text-transform:uppercase}
+.hud-label-tl{top:36px;left:44px}.hud-label-tr{top:36px;right:44px}
+.hud-label-bl{bottom:36px;left:44px}.hud-label-br{bottom:36px;right:44px}
 
-.hero-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(6,214,242,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6,214,242,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
-  animation: gridPulse 8s ease-in-out infinite;
-}
-@keyframes gridPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 22px;border:1px solid rgba(0,229,255,.15);border-radius:100px;background:rgba(0,229,255,.04);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);margin-bottom:36px;opacity:0;animation:fsu 1s ease 2s forwards}
+.badge-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 8px var(--cyan);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  animation: orbFloat 12s ease-in-out infinite;
-  pointer-events: none;
-}
-.orb-1 { width: 500px; height: 500px; background: rgba(6,214,242,0.08); top: -10%; left: -10%; }
-.orb-2 { width: 400px; height: 400px; background: rgba(139,92,246,0.08); bottom: -5%; right: -5%; animation-delay: -4s; }
-.orb-3 { width: 300px; height: 300px; background: rgba(240,192,64,0.06); top: 50%; left: 60%; animation-delay: -8s; }
-@keyframes orbFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -20px) scale(1.05); }
-  66% { transform: translate(-20px, 30px) scale(0.95); }
-}
+.hero-pre{font-family:'Space Mono',monospace;font-size:clamp(12px,1.5vw,15px);letter-spacing:8px;text-transform:uppercase;color:var(--dim);margin-bottom:16px;opacity:0;animation:fsu 1s ease 2.3s forwards}
 
-.hero-satellite {
-  position: absolute;
-  width: 4px; height: 4px;
-  background: var(--accent-cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent-cyan), 0 0 30px rgba(6,214,242,0.3);
-  animation: satelliteOrbit 20s linear infinite;
-}
-.hero-satellite::after {
-  content: '';
-  position: absolute;
-  width: 30px; height: 1px;
-  background: linear-gradient(90deg, rgba(6,214,242,0.5), transparent);
-  top: 50%; right: 100%;
-  transform: translateY(-50%);
-}
-@keyframes satelliteOrbit {
-  0%   { top: 20%; left: -5%; }
-  25%  { top: 10%; left: 50%; }
-  50%  { top: 30%; left: 105%; }
-  75%  { top: 80%; left: 50%; }
-  100% { top: 20%; left: -5%; }
-}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(72px,14vw,180px);font-weight:900;line-height:.9;letter-spacing:-3px;position:relative;opacity:0;animation:heroName 1.5s ease 2.6s forwards}
+.hero-name .letter{display:inline-block;opacity:0;transform:translateY(60px) rotateX(-40deg);animation:letterIn .8s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes letterIn{to{opacity:1;transform:translateY(0) rotateX(0)}}
+.hero-name-glow{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,.15),rgba(255,213,79,.1),rgba(180,136,255,.1));filter:blur(60px);z-index:-1;animation:nameGlow 5s ease infinite}
+@keyframes nameGlow{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.7;transform:scale(1.1)}}
+@keyframes heroName{to{opacity:1}}
 
-.hero-content {
-  position: relative; z-index: 5;
-  padding: 0 24px;
-}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3.5vw,36px);font-weight:400;font-style:italic;color:var(--dim);margin-top:8px;opacity:0;animation:fsu 1s ease 3.4s forwards}
+.hero-title .dr{color:var(--gold);font-style:normal;font-weight:600}
 
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 20px;
-  border: 1px solid rgba(6,214,242,0.2);
-  border-radius: 100px;
-  background: rgba(6,214,242,0.05);
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--accent-cyan);
-  margin-bottom: 40px;
-  opacity: 0;
-  animation: fadeSlideUp 1s ease 1.2s forwards;
-}
-.badge-dot {
-  width: 6px; height: 6px;
-  background: var(--accent-cyan);
-  border-radius: 50%;
-  animation: blink 2s ease-in-out infinite;
-}
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero-divider{width:100px;height:1px;margin:36px auto;position:relative;opacity:0;animation:fsu 1s ease 3.7s forwards}
+.hero-divider::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.hero-divider::after{content:'';position:absolute;top:-3px;left:50%;width:7px;height:7px;margin-left:-3.5px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan)}
 
-.hero-pre {
-  font-family: 'Space Mono', monospace;
-  font-size: clamp(13px, 1.5vw, 16px);
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeSlideUp 1s ease 1.5s forwards;
-}
+.hero-sub{font-size:clamp(14px,1.6vw,17px);font-weight:300;color:var(--dim);max-width:550px;margin:0 auto;line-height:1.8;opacity:0;animation:fsu 1s ease 4s forwards}
 
-.hero-name {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(60px, 12vw, 160px);
-  font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -2px;
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 40%, var(--accent-gold) 70%, #ffffff 100%);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: nameGradient 6s ease infinite, fadeScaleIn 1.2s ease 1.8s both;
-  filter: drop-shadow(0 0 60px rgba(6,214,242,0.15));
-}
-@keyframes nameGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes fadeScaleIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
+.hero-coords{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(0,229,255,.25);opacity:0;animation:fsu 1s ease 4.4s forwards}
 
-.hero-title-line {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 5vw, 56px);
-  font-weight: 400;
-  font-style: italic;
-  color: var(--text-secondary);
-  margin-top: 8px;
-  opacity: 0;
-  animation: fadeSlideUp 1s ease 2.2s forwards;
-}
+.scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fsu 1s ease 4.6s forwards}
+.scroll-hint span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim)}
+.scroll-arrow{width:16px;height:16px;border-right:1px solid var(--cyan);border-bottom:1px solid var(--cyan);transform:rotate(45deg);animation:scrollBounce 2s infinite}
+@keyframes scrollBounce{0%,100%{transform:rotate(45deg) translate(0,0);opacity:1}50%{transform:rotate(45deg) translate(4px,4px);opacity:.3}}
 
-.hero-divider {
-  width: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-  margin: 40px auto;
-  opacity: 0;
-  animation: fadeSlideUp 1s ease 2.5s forwards;
+@keyframes fsu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== DATA STREAM SECTION ===== */
+.datastream{padding:60px 24px;position:relative;overflow:hidden}
+.ds-track{display:flex;gap:60px;animation:dsScroll 30s linear infinite;white-space:nowrap}
+.ds-item{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:rgba(0,229,255,.2);text-transform:uppercase;flex-shrink:0}
+.ds-item .val{color:rgba(0,229,255,.5)}
+@keyframes dsScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== TRIBUTE ===== */
+.tribute{padding:140px 24px;position:relative}
+.tribute-container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.tribute-visual{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+
+/* Holographic card effect */
+.holo-card{width:280px;height:360px;position:relative;transform-style:preserve-3d;perspective:800px}
+.holo-card-inner{width:100%;height:100%;position:relative;border:1px solid rgba(0,229,255,.1);border-radius:16px;background:linear-gradient(145deg,rgba(0,229,255,.04),rgba(180,136,255,.03),rgba(0,229,255,.02));backdrop-filter:blur(20px);overflow:hidden;transition:transform .4s ease;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.holo-card:hover .holo-card-inner{transform:rotateY(5deg) rotateX(-3deg)}
+.holo-card-inner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(0,229,255,.06) 50%,transparent 70%);animation:holoShine 4s ease infinite}
+@keyframes holoShine{0%,100%{opacity:0}50%{opacity:1}}
+.holo-card .icon-sat{font-size:48px;margin-bottom:16px;filter:drop-shadow(0 0 20px rgba(0,229,255,.3))}
+.holo-card .card-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:4px}
+.holo-card .card-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px}
+.holo-card .card-line{width:40px;height:1px;background:var(--cyan);margin:0 auto 16px;opacity:.4}
+.holo-card .card-field{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);margin-bottom:6px;text-transform:uppercase}
+.holo-ring{position:absolute;border:1px solid rgba(0,229,255,.06);border-radius:50%;top:50%;left:50%;animation:ringP 4s ease-in-out infinite}
+.hr1{width:360px;height:360px;margin:-180px 0 0 -180px}
+.hr2{width:440px;height:440px;margin:-220px 0 0 -220px;animation-delay:-1.3s}
+
+.tribute-text{opacity:0;transform:translateY(50px);transition:all 1s ease}
+.tribute-text.vis{opacity:1;transform:translateY(0)}
+.t-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--cyan);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.t-label::before{content:'';width:30px;height:1px;background:var(--cyan)}
+.t-heading{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.2;margin-bottom:24px}
+.t-heading em{color:var(--cyan);font-style:italic}
+.t-body{font-size:15px;line-height:2;color:var(--dim);font-weight:300}
+
+/* ===== TIMELINE ===== */
+.timeline-section{padding:120px 24px;position:relative}
+.timeline-section .sec-label{text-align:center;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--violet);margin-bottom:16px;opacity:0;transform:translateY(30px);transition:all .8s}
+.timeline-section .sec-label.vis{opacity:1;transform:translateY(0)}
+.timeline-section .sec-heading{text-align:center;font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:800;margin-bottom:64px;opacity:0;transform:translateY(30px);transition:all .8s .2s}
+.timeline-section .sec-heading.vis{opacity:1;transform:translateY(0)}
+.timeline-section .sec-heading .hl{background:linear-gradient(135deg,var(--gold),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.tl{max-width:700px;margin:0 auto;position:relative;padding-left:40px}
+.tl::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(0,229,255,.15),rgba(0,229,255,.15),transparent)}
+.tl-item{position:relative;margin-bottom:48px;opacity:0;transform:translateX(-30px);transition:all .8s ease}
+.tl-item.vis{opacity:1;transform:translateX(0)}
+.tl-item::before{content:'';position:absolute;left:-32px;top:6px;width:9px;height:9px;border:2px solid var(--cyan);border-radius:50%;background:var(--bg);z-index:1}
+.tl-item::after{content:'';position:absolute;left:-28px;top:10px;width:1px;height:1px;background:var(--cyan);border-radius:50%;box-shadow:0 0 8px var(--cyan),0 0 20px rgba(0,229,255,.3)}
+.tl-year{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--cyan);margin-bottom:6px}
+.tl-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;margin-bottom:6px}
+.tl-desc{font-size:13px;color:var(--dim);line-height:1.7;font-weight:300}
+
+/* ===== WISHES SECTION ===== */
+.wishes{padding:120px 24px;text-align:center;position:relative}
+.wishes-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(180,136,255,.04),transparent);pointer-events:none}
+.w-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--violet);margin-bottom:16px;opacity:0;transform:translateY(30px);transition:all .8s}
+.w-label.vis{opacity:1;transform:translateY(0)}
+.w-heading{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:800;max-width:600px;margin:0 auto 64px;opacity:0;transform:translateY(30px);transition:all .8s .2s}
+.w-heading.vis{opacity:1;transform:translateY(0)}
+.w-heading .hl{background:linear-gradient(135deg,var(--gold),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.wcards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto}
+.wcard{padding:36px 24px;border:1px solid rgba(255,255,255,.04);border-radius:16px;background:rgba(255,255,255,.015);text-align:left;opacity:0;transform:translateY(40px) scale(.95);transition:all .8s ease;position:relative;overflow:hidden}
+.wcard.vis{opacity:1;transform:translateY(0) scale(1)}
+.wcard:hover{border-color:rgba(0,229,255,.15);background:rgba(0,229,255,.02);transform:translateY(-6px) scale(1.01)}
+.wcard::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);transition:left .6s ease}
+.wcard:hover::before{left:100%}
+.wcard .wi{font-size:36px;margin-bottom:18px;display:block}
+.wcard h3{font-size:17px;font-weight:600;margin-bottom:10px}
+.wcard p{font-size:13px;line-height:1.8;color:var(--dim);font-weight:300}
+.wcard .w-num{position:absolute;top:16px;right:20px;font-family:'Space Mono',monospace;font-size:48px;font-weight:700;color:rgba(0,229,255,.03);line-height:1}
+
+/* ===== QUOTE SECTION ===== */
+.quote-section{padding:120px 24px;display:flex;justify-content:center;position:relative}
+.quote-box{max-width:700px;text-align:center;position:relative;opacity:0;transform:translateY(40px);transition:all 1s}
+.quote-box.vis{opacity:1;transform:translateY(0)}
+.quote-mark{font-family:'Playfair Display',serif;font-size:120px;line-height:1;color:rgba(0,229,255,.08);position:absolute;top:-40px;left:-20px}
+.quote-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-weight:400;font-style:italic;line-height:1.7;color:rgba(237,242,255,.7);position:relative;z-index:1}
+.quote-author{margin-top:24px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan)}
+
+/* ===== FINALE ===== */
+.finale{padding:160px 24px;text-align:center;position:relative;min-height:80vh;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.finale-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(255,213,79,.06),rgba(255,64,129,.03),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:fglow 6s ease-in-out infinite}
+@keyframes fglow{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.15);opacity:.9}}
+
+.finale-content{position:relative;z-index:2;opacity:0;transform:translateY(40px) scale(.95);transition:all 1.2s ease}
+.finale-content.vis{opacity:1;transform:translateY(0) scale(1)}
+
+.finale-cake{font-size:80px;margin-bottom:28px;animation:cakeFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 40px rgba(255,213,79,.2))}
+@keyframes cakeFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-8px) rotate(2deg)}75%{transform:translateY(-4px) rotate(-1deg)}}
+
+.finale-text{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,100px);font-weight:900;line-height:1;margin-bottom:20px}
+.finale-text .g1{background:linear-gradient(135deg,var(--gold),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.finale-text .g2{background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.finale-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2vw,22px);font-style:italic;color:var(--dim);max-width:480px;margin:0 auto 48px;line-height:1.8}
+
+/* Music button */
+.music-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid rgba(0,229,255,.2);border-radius:100px;background:rgba(0,229,255,.04);color:var(--cyan);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.music-btn:hover{background:rgba(0,229,255,.08);border-color:var(--cyan);box-shadow:var(--gcyan)}
+.eq{display:flex;gap:2px;align-items:flex-end;height:14px}
+.eq i{display:block;width:3px;background:var(--cyan);border-radius:2px}
+.music-btn.on .eq i{animation:eqb .5s ease-in-out infinite alternate}
+.eq i:nth-child(1){height:3px;animation-delay:0s}
+.eq i:nth-child(2){height:7px;animation-delay:.12s}
+.eq i:nth-child(3){height:5px;animation-delay:.24s}
+.eq i:nth-child(4){height:9px;animation-delay:.08s}
+.eq i:nth-child(5){height:4px;animation-delay:.2s}
+@keyframes eqb{0%{height:3px}100%{height:14px}}
+
+/* ===== FOOTER ===== */
+.footer{padding:40px 24px;text-align:center;border-top:1px solid rgba(255,255,255,.03)}
+.footer p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(237,242,255,.2);text-transform:uppercase}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .tribute-container{grid-template-columns:1fr;gap:40px;text-align:center}
+  .tribute-visual{max-width:260px;margin:0 auto}
+  .tribute-text{text-align:center}
+  .t-label{justify-content:center}
+  .wcards{grid-template-columns:1fr;max-width:380px;margin:0 auto}
+  .hud-frame{display:none}
 }
 
-.hero-sub {
-  font-size: clamp(14px, 1.8vw, 18px);
-  font-weight: 300;
-  color: var(--text-secondary);
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.7;
-  opacity: 0;
-  animation: fadeSlideUp 1s ease 2.8s forwards;
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 40px; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column;
-  align-items: center; gap: 8px;
-  opacity: 0;
-  animation: fadeSlideUp 1s ease 3.2s forwards;
-}
-.scroll-indicator span {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-.scroll-line {
-  width: 1px; height: 40px;
-  background: linear-gradient(to bottom, var(--accent-cyan), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse {
-  0%, 100% { transform: scaleY(1); opacity: 1; }
-  50% { transform: scaleY(0.5); opacity: 0.3; }
-}
-
-/* ========== TRIBUTE SECTION ========== */
-.tribute {
-  padding: 120px 24px;
-  position: relative;
-}
-
-.tribute-container {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-
-.tribute-visual {
-  position: relative;
-  aspect-ratio: 1;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.tribute-globe {
-  width: 300px; height: 300px;
-  border-radius: 50%;
-  position: relative;
-  background: radial-gradient(circle at 35% 35%, rgba(6,214,242,0.15), rgba(139,92,246,0.05) 60%, transparent 70%);
-  border: 1px solid rgba(6,214,242,0.1);
-  animation: globeRotate 30s linear infinite;
-  box-shadow: inset 0 0 60px rgba(6,214,242,0.05), var(--glow-cyan);
-}
-@keyframes globeRotate { to { transform: rotate(360deg); } }
-
-.globe-ring {
-  position: absolute;
-  border: 1px solid rgba(6,214,242,0.1);
-  border-radius: 50%;
-  top: 50%; left: 50%;
-  animation: ringPulse 4s ease-in-out infinite;
-}
-.ring-1 { width: 360px; height: 360px; margin: -180px 0 0 -180px; }
-.ring-2 { width: 420px; height: 420px; margin: -210px 0 0 -210px; animation-delay: -1.3s; }
-.ring-3 { width: 480px; height: 480px; margin: -240px 0 0 -240px; animation-delay: -2.6s; }
-@keyframes ringPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.02); }
-}
-
-.globe-grid-line {
-  position: absolute; top: 0; left: 50%;
-  width: 1px; height: 100%;
-  background: rgba(6,214,242,0.05);
-  transform-origin: center;
-}
-
-.globe-scan {
-  position: absolute;
-  width: 100%; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-  animation: scanLine 4s ease-in-out infinite;
-  opacity: 0.5;
-}
-@keyframes scanLine {
-  0% { top: 10%; }
-  100% { top: 90%; }
-}
-
-.tribute-text {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1s ease;
-}
-.tribute-text.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.tribute-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--accent-cyan);
-  margin-bottom: 24px;
-  display: flex; align-items: center; gap: 12px;
-}
-.tribute-label::before {
-  content: '';
-  width: 30px; height: 1px;
-  background: var(--accent-cyan);
-}
-
-.tribute-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 24px;
-}
-.tribute-heading em {
-  font-style: italic;
-  color: var(--accent-cyan);
-}
-
-.tribute-body {
-  font-size: 16px;
-  line-height: 1.9;
-  color: var(--text-secondary);
-  font-weight: 300;
-}
-
-/* ========== WISHES SECTION ========== */
-.wishes {
-  padding: 120px 24px;
-  text-align: center;
-  position: relative;
-}
-
-.wishes-bg {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(139,92,246,0.06), transparent);
-  pointer-events: none;
-}
-
-.wishes-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--accent-violet);
-  margin-bottom: 32px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease;
-}
-.wishes-label.visible { opacity: 1; transform: translateY(0); }
-
-.wishes-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(36px, 5vw, 60px);
-  font-weight: 800;
-  line-height: 1.15;
-  max-width: 700px;
-  margin: 0 auto 60px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease 0.2s;
-}
-.wishes-heading.visible { opacity: 1; transform: translateY(0); }
-.wishes-heading .highlight {
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.wish-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.wish-card {
-  padding: 40px 28px;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.02);
-  backdrop-filter: blur(10px);
-  text-align: left;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
-  position: relative;
-  overflow: hidden;
-}
-.wish-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.wish-card:hover {
-  border-color: rgba(6,214,242,0.2);
-  background: rgba(6,214,242,0.03);
-  transform: translateY(-4px);
-}
-.wish-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-.wish-card:hover::before { opacity: 1; }
-
-.wish-icon {
-  font-size: 32px;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.wish-card h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.wish-card p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  font-weight: 300;
-}
-
-/* ========== CTA / Final Message ========== */
-.finale {
-  padding: 160px 24px;
-  text-align: center;
-  position: relative;
-  min-height: 80vh;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-}
-
-.finale-glow {
-  position: absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(240,192,64,0.08), transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  animation: finaleGlow 6s ease-in-out infinite;
-}
-@keyframes finaleGlow {
-  0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
-  50% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
-}
-
-.finale-content {
-  position: relative; z-index: 2;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s ease;
-}
-.finale-content.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.finale-emoji {
-  font-size: 64px;
-  margin-bottom: 32px;
-  animation: emojiFloat 3s ease-in-out infinite;
-}
-@keyframes emojiFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.finale-text {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(40px, 7vw, 80px);
-  font-weight: 900;
-  line-height: 1.1;
-  margin-bottom: 24px;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-rose), var(--accent-violet));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.finale-sub {
-  font-size: 18px;
-  color: var(--text-secondary);
-  font-weight: 300;
-  max-width: 450px;
-  margin: 0 auto 48px;
-  line-height: 1.7;
-}
-
-.music-btn {
-  display: inline-flex;
-  align-items: center; gap: 10px;
-  padding: 14px 32px;
-  border: 1px solid rgba(6,214,242,0.3);
-  border-radius: 100px;
-  background: rgba(6,214,242,0.05);
-  color: var(--accent-cyan);
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.music-btn:hover {
-  background: rgba(6,214,242,0.1);
-  border-color: var(--accent-cyan);
-  box-shadow: var(--glow-cyan);
-}
-.music-btn .eq-bars {
-  display: flex; gap: 2px; align-items: flex-end; height: 14px;
-}
-.music-btn .eq-bar {
-  width: 3px;
-  background: var(--accent-cyan);
-  border-radius: 2px;
-  transition: height 0.2s ease;
-}
-.music-btn.playing .eq-bar { animation: eqBounce 0.6s ease-in-out infinite alternate; }
-.music-btn .eq-bar:nth-child(1) { height: 4px; animation-delay: 0s; }
-.music-btn .eq-bar:nth-child(2) { height: 8px; animation-delay: 0.15s; }
-.music-btn .eq-bar:nth-child(3) { height: 6px; animation-delay: 0.3s; }
-.music-btn .eq-bar:nth-child(4) { height: 10px; animation-delay: 0.1s; }
-@keyframes eqBounce {
-  0% { height: 3px; }
-  100% { height: 14px; }
-}
-
-/* ========== FOOTER ========== */
-.footer {
-  padding: 40px 24px;
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.04);
-}
-.footer p {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--text-secondary);
-}
-
-/* ========== UTILS ========== */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ========== PARALLAX FLOATING ELEMENTS ========== */
-.parallax-layer {
-  position: fixed; inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-.p-shape {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.4;
-}
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 768px) {
-  .tribute-container {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    text-align: center;
-  }
-  .tribute-visual { max-width: 280px; margin: 0 auto; }
-  .tribute-text { text-align: center; }
-  .tribute-label { justify-content: center; }
-  .wish-cards {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-  }
-}
-
-/* ========== PARTICLE TRAIL ON CURSOR ========== */
-.cursor-particle {
-  position: fixed;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  background: var(--accent-cyan);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+/* ===== NOISE OVERLAY ===== */
+body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.015;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 </style>
 </head>
 <body>
 
 <!-- PRELOADER -->
 <div id="preloader">
-  <div class="loader-ring"></div>
-  <div class="loader-text">Initializing transmission...</div>
+  <div class="ld-orbit">
+    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    <div class="core"></div>
+  </div>
+  <div class="ld-text">Acquiring satellite signal...</div>
+  <div class="ld-bar"><i></i></div>
 </div>
 
-<!-- STAR FIELD -->
-<canvas id="starfield"></canvas>
+<!-- 3D SCENE -->
+<canvas id="scene3d"></canvas>
 
 <!-- FIREWORKS -->
-<canvas id="fireworks"></canvas>
+<canvas id="fwCanvas"></canvas>
 
-<!-- PARALLAX LAYER -->
-<div class="parallax-layer" id="parallaxLayer"></div>
-
-<!-- ========== HERO ========== -->
-<section class="hero">
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
   <div class="hero-grid"></div>
-  <div class="hero-orb orb-1"></div>
-  <div class="hero-orb orb-2"></div>
-  <div class="hero-orb orb-3"></div>
-  <div class="hero-satellite"></div>
+  <div class="hud-frame">
+    <div class="hud-corner hud-tl"></div>
+    <div class="hud-corner hud-tr"></div>
+    <div class="hud-corner hud-bl"></div>
+    <div class="hud-corner hud-br"></div>
+    <div class="hud-label hud-label-tl">LAT 21.0285° N</div>
+    <div class="hud-label hud-label-tr">SIGNAL: STRONG</div>
+    <div class="hud-label hud-label-bl">ALT 35,786 KM</div>
+    <div class="hud-label hud-label-br">BAND: C / X / L</div>
+  </div>
 
   <div class="hero-content">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      Signal Acquired — Birthday Detected
-    </div>
+    <div class="hero-badge"><span class="badge-dot"></span>Orbital Transmission — Birthday Signal Detected</div>
     <p class="hero-pre">Happy Birthday</p>
-    <h1 class="hero-name">Long</h1>
-    <p class="hero-title-line">Chuyên gia Viễn thám</p>
+    <h1 class="hero-name" id="heroName">
+      <div class="hero-name-glow"></div>
+    </h1>
+    <p class="hero-title"><span class="dr">Dr.</span> — Chuyên gia Viễn thám</p>
     <div class="hero-divider"></div>
-    <p class="hero-sub">
-      Người giải mã Trái Đất từ ngoài không gian.<br>
-      Hôm nay, vệ tinh gửi lời chúc mừng đặc biệt đến anh.
-    </p>
+    <p class="hero-sub">Người giải mã bề mặt Trái Đất từ ngoài không gian.<br>Hôm nay, toàn bộ hệ thống vệ tinh gửi tín hiệu chúc mừng đặc biệt.</p>
+    <div class="hero-coords" id="heroCoords"></div>
   </div>
 
-  <div class="scroll-indicator">
-    <span>Khám phá</span>
-    <div class="scroll-line"></div>
-  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-arrow"></div></div>
 </section>
 
-<!-- ========== TRIBUTE ========== -->
+<!-- ===== DATA STREAM ===== -->
+<section class="datastream">
+  <div class="ds-track" id="dsTrack"></div>
+</section>
+
+<!-- ===== TRIBUTE ===== -->
 <section class="tribute">
   <div class="tribute-container">
     <div class="tribute-visual">
-      <div class="tribute-globe">
-        <div class="globe-grid-line" style="transform:rotate(0deg)"></div>
-        <div class="globe-grid-line" style="transform:rotate(30deg)"></div>
-        <div class="globe-grid-line" style="transform:rotate(60deg)"></div>
-        <div class="globe-grid-line" style="transform:rotate(90deg)"></div>
-        <div class="globe-grid-line" style="transform:rotate(120deg)"></div>
-        <div class="globe-grid-line" style="transform:rotate(150deg)"></div>
-        <div class="globe-scan"></div>
+      <div class="holo-card">
+        <div class="holo-card-inner">
+          <div class="icon-sat">🛰️</div>
+          <div class="card-name">Dr. Long</div>
+          <div class="card-title">Remote Sensing Expert</div>
+          <div class="card-line"></div>
+          <div class="card-field">Specialization: Earth Observation</div>
+          <div class="card-field">Resolution: Sub-meter</div>
+          <div class="card-field">Status: Legendary</div>
+        </div>
       </div>
-      <div class="globe-ring ring-1"></div>
-      <div class="globe-ring ring-2"></div>
-      <div class="globe-ring ring-3"></div>
+      <div class="holo-ring hr1"></div>
+      <div class="holo-ring hr2"></div>
     </div>
-    <div class="tribute-text" id="tributeText">
-      <div class="tribute-label">Về con người</div>
-      <h2 class="tribute-heading">
-        Anh nhìn thế giới<br>từ một <em>góc nhìn khác</em>
-      </h2>
-      <p class="tribute-body">
-        Trong khi người khác nhìn bầu trời để mơ mộng, Long nhìn từ bầu trời xuống — để hiểu, để phân tích, để kiến tạo. Mỗi pixel ảnh vệ tinh qua tay anh đều mang theo một câu chuyện về mặt đất, về con người, về tương lai.
-        <br><br>
-        Chúc anh luôn bay cao, nhìn xa, và khám phá không ngừng.
-      </p>
+    <div class="tribute-text" data-anim>
+      <div class="t-label">Về con người</div>
+      <h2 class="t-heading">Anh nhìn thế giới<br>từ một <em>chiều không gian khác</em></h2>
+      <p class="t-body">Khi người khác nhìn lên bầu trời để mơ mộng, Tiến sĩ Long nhìn từ bầu trời xuống — để giải mã, để phân tích, để kiến tạo tương lai. Mỗi pixel ảnh vệ tinh qua tay anh đều kể một câu chuyện về hành tinh này — chính xác đến từng mét, sâu sắc đến từng tầng phổ.</p>
     </div>
   </div>
 </section>
 
-<!-- ========== WISHES ========== -->
+<!-- ===== TIMELINE ===== -->
+<section class="timeline-section">
+  <div class="sec-label" data-anim>Hành trình</div>
+  <h2 class="sec-heading" data-anim>Những dấu mốc <span class="hl">phi thường</span></h2>
+  <div class="tl">
+    <div class="tl-item" data-anim>
+      <div class="tl-year">Chapter 01</div>
+      <div class="tl-title">Khởi đầu hành trình</div>
+      <div class="tl-desc">Từ đam mê viễn thám và GIS, bắt đầu con đường nghiên cứu với niềm say mê không giới hạn.</div>
+    </div>
+    <div class="tl-item" data-anim>
+      <div class="tl-year">Chapter 02</div>
+      <div class="tl-title">Tiến sĩ — Bước nhảy vọt</div>
+      <div class="tl-desc">Hoàn thành luận án tiến sĩ, khẳng định vị thế trong lĩnh vực viễn thám — chinh phục tri thức ở tầm cao mới.</div>
+    </div>
+    <div class="tl-item" data-anim>
+      <div class="tl-year">Chapter 03</div>
+      <div class="tl-title">Chuyên gia — Người dẫn đường</div>
+      <div class="tl-desc">Dẫn dắt các dự án lớn, truyền cảm hứng cho thế hệ mới trong lĩnh vực quan sát Trái Đất.</div>
+    </div>
+    <div class="tl-item" data-anim>
+      <div class="tl-year">Now</div>
+      <div class="tl-title">Hôm nay — Sinh nhật!</div>
+      <div class="tl-desc">Một ngày đặc biệt để ăn mừng con người đặc biệt. Chương tiếp theo sẽ còn phi thường hơn!</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WISHES ===== -->
 <section class="wishes">
   <div class="wishes-bg"></div>
-  <div class="wishes-label" id="wishesLabel">Lời chúc từ quỹ đạo</div>
-  <h2 class="wishes-heading" id="wishesHeading">
-    Năm mới tuổi,<br><span class="highlight">tầm nhìn mới</span>
-  </h2>
-  <div class="wish-cards">
-    <div class="wish-card" data-delay="0">
-      <span class="wish-icon">🛰️</span>
-      <h3>Sức khỏe</h3>
-      <p>Bền vững như quỹ đạo vệ tinh — luôn ổn định, không bao giờ mệt mỏi, tự điều chỉnh hoàn hảo.</p>
+  <div class="w-label" data-anim>Lời chúc từ quỹ đạo</div>
+  <h2 class="w-heading" data-anim>Năm mới tuổi,<br><span class="hl">tầm nhìn mới</span></h2>
+  <div class="wcards">
+    <div class="wcard" data-anim>
+      <span class="w-num">01</span>
+      <span class="wi">🛰️</span>
+      <h3>Sức khỏe phi hành gia</h3>
+      <p>Bền bỉ như trạm ISS — luôn hoạt động hoàn hảo, không bao giờ gián đoạn, vận hành 24/7/365.</p>
     </div>
-    <div class="wish-card" data-delay="150">
-      <span class="wish-icon">🌍</span>
-      <h3>Sự nghiệp</h3>
-      <p>Mỗi dự án đều thành công rực rỡ. Mỗi bản đồ anh tạo ra đều thay đổi cách người ta nhìn thế giới.</p>
+    <div class="wcard" data-anim>
+      <span class="w-num">02</span>
+      <span class="wi">🌍</span>
+      <h3>Sự nghiệp vươn tầm</h3>
+      <p>Mỗi dự án như một vệ tinh mới — nâng tầm quan sát, mở rộng tầm nhìn, thay đổi cách thế giới hiểu về Trái Đất.</p>
     </div>
-    <div class="wish-card" data-delay="300">
-      <span class="wish-icon">✨</span>
-      <h3>Hạnh phúc</h3>
-      <p>Rõ nét như ảnh vệ tinh độ phân giải cao — sắc sảo, chân thực, và luôn tràn ngập màu sắc.</p>
+    <div class="wcard" data-anim>
+      <span class="w-num">03</span>
+      <span class="wi">✨</span>
+      <h3>Hạnh phúc trọn vẹn</h3>
+      <p>Rõ nét như ảnh vệ tinh 30cm — sắc sảo từng chi tiết, chân thực từng khoảnh khắc, tràn ngập sắc màu.</p>
     </div>
   </div>
 </section>
 
-<!-- ========== FINALE ========== -->
+<!-- ===== QUOTE ===== -->
+<section class="quote-section">
+  <div class="quote-box" data-anim>
+    <div class="quote-mark">"</div>
+    <p class="quote-text">Nhìn Trái Đất từ không gian không chỉ là khoa học — đó là nghệ thuật đọc hiểu hành tinh bằng ánh sáng và dữ liệu.</p>
+    <div class="quote-author">— Tặng Dr. Long</div>
+  </div>
+</section>
+
+<!-- ===== FINALE ===== -->
 <section class="finale">
   <div class="finale-glow"></div>
-  <div class="finale-content" id="finaleContent">
-    <div class="finale-emoji">🎂</div>
-    <h2 class="finale-text">Chúc Mừng<br>Sinh Nhật!</h2>
-    <p class="finale-sub">
-      Một năm mới đầy những khám phá phi thường đang chờ anh phía trước. Hãy tận hưởng ngày hôm nay!
-    </p>
-    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-      <div class="eq-bars">
-        <div class="eq-bar"></div>
-        <div class="eq-bar"></div>
-        <div class="eq-bar"></div>
-        <div class="eq-bar"></div>
-      </div>
-      <span id="musicLabel">Bật nhạc sinh nhật</span>
+  <div class="finale-content" data-anim>
+    <div class="finale-cake">🎂</div>
+    <h2 class="finale-text"><span class="g1">Chúc Mừng</span><br><span class="g2">Sinh Nhật!</span></h2>
+    <p class="finale-sub">Một năm mới đầy những khám phá phi thường và thành tựu rực rỡ đang chờ anh phía trước. Hãy tận hưởng ngày hôm nay, Dr. Long!</p>
+    <button class="music-btn" id="mBtn" onclick="toggleMusic()">
+      <div class="eq"><i></i><i></i><i></i><i></i><i></i></div>
+      <span id="mLbl">Bật nhạc sinh nhật</span>
     </button>
   </div>
 </section>
 
 <footer class="footer">
-  <p>Transmitted with ♥ from orbit — 2026</p>
+  <p>Transmitted with ♥ from GEO orbit — 2026</p>
 </footer>
 
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// ==================== PRELOADER ====================
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('preloader').classList.add('hidden');
-    initFireworks();
-  }, 1800);
-});
+// ===================== THREE.JS 3D SCENE =====================
+(function(){
+  const canvas = document.getElementById('scene3d');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
-// ==================== STAR FIELD ====================
-(function initStars() {
-  const c = document.getElementById('starfield');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 2000);
+  camera.position.set(0, 0, 5);
+
+  window.addEventListener('resize', ()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // --- EARTH GLOBE ---
+  const earthGeo = new THREE.SphereGeometry(1.2, 64, 64);
+  // Create procedural earth material
+  const earthCanvas = document.createElement('canvas');
+  earthCanvas.width = 1024; earthCanvas.height = 512;
+  const ectx = earthCanvas.getContext('2d');
+  // Dark base
+  ectx.fillStyle = '#0a1628';
+  ectx.fillRect(0, 0, 1024, 512);
+  // Continents as abstract shapes
+  ectx.fillStyle = 'rgba(0,229,255,0.12)';
+  // Simplified continent blobs
+  const continents = [
+    [340,80,120,100],[480,100,80,80],[200,120,80,100],[580,160,100,120],
+    [300,200,60,80],[700,100,60,70],[150,250,40,50],[420,250,60,90],
+    [650,250,80,100],[250,350,50,60],[500,300,40,60],[100,150,60,80]
+  ];
+  continents.forEach(([x,y,w,h])=>{
+    ectx.beginPath();
+    ectx.ellipse(x,y,w/2,h/2,Math.random()*0.5,0,Math.PI*2);
+    ectx.fill();
+  });
+  // Grid lines
+  ectx.strokeStyle = 'rgba(0,229,255,0.04)';
+  ectx.lineWidth = 0.5;
+  for(let i=0;i<12;i++){ectx.beginPath();ectx.moveTo(0,i*512/12);ectx.lineTo(1024,i*512/12);ectx.stroke()}
+  for(let i=0;i<24;i++){ectx.beginPath();ectx.moveTo(i*1024/24,0);ectx.lineTo(i*1024/24,512);ectx.stroke()}
+  // City lights
+  ectx.fillStyle = 'rgba(255,213,79,0.6)';
+  for(let i=0;i<200;i++){
+    const cx = Math.random()*1024, cy = Math.random()*512;
+    const inContinent = continents.some(([x,y,w,h])=> Math.abs(cx-x)<w/2 && Math.abs(cy-y)<h/2);
+    if(inContinent){ectx.beginPath();ectx.arc(cx,cy,0.5+Math.random()*1.5,0,Math.PI*2);ectx.fill()}
+  }
+
+  const earthTex = new THREE.CanvasTexture(earthCanvas);
+  const earthMat = new THREE.MeshBasicMaterial({map:earthTex, transparent:true, opacity:0.9});
+  const earth = new THREE.Mesh(earthGeo, earthMat);
+  earth.position.set(2.5, -0.5, -2);
+  scene.add(earth);
+
+  // Atmosphere glow
+  const atmosGeo = new THREE.SphereGeometry(1.28, 64, 64);
+  const atmosMat = new THREE.ShaderMaterial({
+    vertexShader:`varying vec3 vNormal;void main(){vNormal=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+    fragmentShader:`varying vec3 vNormal;void main(){float i=pow(0.65-dot(vNormal,vec3(0,0,1.)),2.5);gl_FragColor=vec4(0.,0.9,1.,1.)*i;}`,
+    transparent:true, side:THREE.BackSide, blending:THREE.AdditiveBlending
+  });
+  const atmos = new THREE.Mesh(atmosGeo, atmosMat);
+  atmos.position.copy(earth.position);
+  scene.add(atmos);
+
+  // --- ORBIT RINGS ---
+  function createOrbitRing(radius, color, pos){
+    const g = new THREE.RingGeometry(radius-0.005, radius+0.005, 128);
+    const m = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.12, side:THREE.DoubleSide});
+    const ring = new THREE.Mesh(g, m);
+    ring.position.copy(pos);
+    ring.rotation.x = Math.PI/2.2;
+    scene.add(ring);
+    return ring;
+  }
+  const oRing1 = createOrbitRing(1.8, 0x00e5ff, earth.position);
+  const oRing2 = createOrbitRing(2.2, 0xb388ff, earth.position);
+  const oRing3 = createOrbitRing(2.7, 0x00e5ff, earth.position);
+
+  // --- SATELLITES ---
+  function createSatellite(orbitRadius, speed, size, color){
+    const group = new THREE.Group();
+    group.position.copy(earth.position);
+    // Body
+    const body = new THREE.Mesh(
+      new THREE.BoxGeometry(size, size*0.5, size*0.3),
+      new THREE.MeshBasicMaterial({color})
+    );
+    // Solar panels
+    const panel = new THREE.Mesh(
+      new THREE.PlaneGeometry(size*2.5, size*0.6),
+      new THREE.MeshBasicMaterial({color:0x448aff, transparent:true, opacity:0.6, side:THREE.DoubleSide})
+    );
+    // Glow
+    const glow = new THREE.PointLight(color, 0.5, 3);
+    
+    const pivot = new THREE.Group();
+    pivot.add(body, panel, glow);
+    pivot.position.set(orbitRadius, 0, 0);
+    group.add(pivot);
+    scene.add(group);
+    return {group, pivot, speed, orbitRadius};
+  }
+  const sats = [
+    createSatellite(1.8, 0.3, 0.06, 0x00e5ff),
+    createSatellite(2.2, -0.2, 0.05, 0xffd54f),
+    createSatellite(2.7, 0.15, 0.07, 0x64ffda),
+  ];
+
+  // --- STARS (particles) ---
+  const starCount = 3000;
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starCount*3);
+  const starSizes = new Float32Array(starCount);
+  for(let i=0;i<starCount;i++){
+    const theta = Math.random()*Math.PI*2;
+    const phi = Math.acos(2*Math.random()-1);
+    const r = 30+Math.random()*70;
+    starPos[i*3]=r*Math.sin(phi)*Math.cos(theta);
+    starPos[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+    starPos[i*3+2]=r*Math.cos(phi);
+    starSizes[i]=0.5+Math.random()*2;
+  }
+  starGeo.setAttribute('position',new THREE.BufferAttribute(starPos,3));
+  starGeo.setAttribute('size',new THREE.BufferAttribute(starSizes,1));
+  const starMat = new THREE.ShaderMaterial({
+    uniforms:{uTime:{value:0}},
+    vertexShader:`
+      attribute float size;
+      uniform float uTime;
+      varying float vAlpha;
+      void main(){
+        vAlpha = 0.3+0.7*abs(sin(uTime*0.5+position.x*0.1));
+        vec4 mv = modelViewMatrix * vec4(position,1.);
+        gl_PointSize = size * (100./-mv.z);
+        gl_Position = projectionMatrix * mv;
+      }
+    `,
+    fragmentShader:`
+      varying float vAlpha;
+      void main(){
+        float d = length(gl_PointCoord-0.5);
+        if(d>0.5) discard;
+        float a = smoothstep(0.5,0.0,d)*vAlpha;
+        gl_FragColor = vec4(0.8,0.85,1.,a);
+      }
+    `,
+    transparent:true, blending:THREE.AdditiveBlending, depthWrite:false
+  });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  // --- NEBULA (large particles) ---
+  const nebCount = 500;
+  const nebGeo = new THREE.BufferGeometry();
+  const nebPos = new Float32Array(nebCount*3);
+  const nebCol = new Float32Array(nebCount*3);
+  for(let i=0;i<nebCount;i++){
+    nebPos[i*3]=(Math.random()-0.5)*40;
+    nebPos[i*3+1]=(Math.random()-0.5)*40;
+    nebPos[i*3+2]=-20+Math.random()*-30;
+    const colors = [[0,0.9,1],[1,0.84,0.3],[0.7,0.47,1],[0.39,1,0.85]];
+    const c = colors[Math.floor(Math.random()*colors.length)];
+    nebCol[i*3]=c[0];nebCol[i*3+1]=c[1];nebCol[i*3+2]=c[2];
+  }
+  nebGeo.setAttribute('position',new THREE.BufferAttribute(nebPos,3));
+  nebGeo.setAttribute('color',new THREE.BufferAttribute(nebCol,3));
+  const nebMat = new THREE.PointsMaterial({size:0.8, transparent:true, opacity:0.08, vertexColors:true, blending:THREE.AdditiveBlending, depthWrite:false});
+  scene.add(new THREE.Points(nebGeo, nebMat));
+
+  // --- MOUSE PARALLAX ---
+  let mx=0, my=0;
+  document.addEventListener('mousemove', e=>{
+    mx=(e.clientX/window.innerWidth-0.5)*2;
+    my=(e.clientY/window.innerHeight-0.5)*2;
+  });
+
+  // --- SCROLL ---
+  let scrollY = 0;
+  window.addEventListener('scroll', ()=> scrollY = window.scrollY);
+
+  // --- ANIMATE ---
+  const clock = new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    // Earth rotation
+    earth.rotation.y = t * 0.08;
+    atmos.rotation.y = t * 0.08;
+
+    // Satellites orbit
+    sats.forEach(s=>{
+      s.group.rotation.y = t * s.speed;
+      s.group.rotation.x = Math.sin(t*0.1)*0.3;
+      s.pivot.rotation.y = -t * s.speed;
+    });
+
+    // Orbit ring subtle rotation
+    oRing1.rotation.z = t*0.02;
+    oRing2.rotation.z = -t*0.015;
+    oRing3.rotation.z = t*0.01;
+
+    // Star twinkle
+    starMat.uniforms.uTime.value = t;
+
+    // Camera parallax
+    camera.position.x += (mx*0.3 - camera.position.x)*0.02;
+    camera.position.y += (-my*0.2 - camera.position.y)*0.02;
+
+    // Scroll parallax - move earth up as you scroll
+    const sy = scrollY * 0.001;
+    earth.position.y = -0.5 - sy * 2;
+    atmos.position.y = earth.position.y;
+    sats.forEach(s=> s.group.position.y = earth.position.y);
+    oRing1.position.y = earth.position.y;
+    oRing2.position.y = earth.position.y;
+    oRing3.position.y = earth.position.y;
+
+    camera.lookAt(0,0,0);
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// ===================== FIREWORKS =====================
+(function(){
+  const c = document.getElementById('fwCanvas');
   const ctx = c.getContext('2d');
-  let W, H, stars = [];
+  let W,H;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize(); window.addEventListener('resize',resize);
+  const rockets=[], particles=[];
+  const colors=['#00e5ff','#ffd54f','#ff4081','#b388ff','#64ffda','#448aff'];
 
-  function resize() {
-    W = c.width = window.innerWidth;
-    H = c.height = window.innerHeight;
+  function launch(){
+    const x=W*0.2+Math.random()*W*0.6;
+    rockets.push({x,y:H,tx:x+(Math.random()-0.5)*120,ty:H*(0.1+Math.random()*0.25),sp:5+Math.random()*3,trail:[]});
   }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (let i = 0; i < 300; i++) {
-    stars.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.5 + 0.3,
-      a: Math.random(),
-      speed: Math.random() * 0.0008 + 0.0002,
-      phase: Math.random() * Math.PI * 2
-    });
+  function explode(x,y){
+    const col=colors[Math.floor(Math.random()*colors.length)];
+    const n=80+Math.floor(Math.random()*60);
+    // Ring burst
+    for(let i=0;i<n;i++){
+      const a=(Math.PI*2/n)*i;
+      const sp=1.5+Math.random()*4.5;
+      particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,decay:0.006+Math.random()*0.012,color:col,sz:1+Math.random()*2});
+    }
+    // Inner sparkle
+    for(let i=0;i<20;i++){
+      const a=Math.random()*Math.PI*2;
+      particles.push({x,y,vx:Math.cos(a)*Math.random()*2,vy:Math.sin(a)*Math.random()*2,life:1,decay:0.015+Math.random()*0.01,color:'#ffffff',sz:1.5});
+    }
   }
 
-  function draw(t) {
-    ctx.clearRect(0, 0, W, H);
-    stars.forEach(s => {
-      const alpha = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed * 1000 + s.phase));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,220,255,${alpha})`;
-      ctx.fill();
-    });
+  let lastL=0, frame=0;
+  function draw(t){
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle='rgba(2,8,16,0.12)';
+    ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+
+    if(t-lastL>700+Math.random()*1200){launch();if(Math.random()>.4)launch();lastL=t}
+
+    for(let i=rockets.length-1;i>=0;i--){
+      const r=rockets[i];
+      const dx=r.tx-r.x,dy=r.ty-r.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<12){explode(r.x,r.y);rockets.splice(i,1);continue}
+      r.x+=(dx/d)*r.sp;r.y+=(dy/d)*r.sp;
+      ctx.beginPath();ctx.arc(r.x,r.y,2,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+      r.trail.push({x:r.x,y:r.y});
+      if(r.trail.length>15)r.trail.shift();
+      r.trail.forEach((p,idx)=>{
+        ctx.beginPath();ctx.arc(p.x,p.y,1,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,255,255,${idx/r.trail.length*0.4})`;ctx.fill();
+      });
+    }
+
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.018;p.vx*=0.99;p.life-=p.decay;
+      if(p.life<=0){particles.splice(i,1);continue}
+      ctx.globalAlpha=p.life;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz*p.life,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();
+      // Spark trail
+      if(p.life>.3){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*2,p.y-p.vy*2);ctx.strokeStyle=p.color;ctx.lineWidth=0.5;ctx.stroke()}
+      ctx.globalAlpha=1;
+    }
     requestAnimationFrame(draw);
   }
   requestAnimationFrame(draw);
 })();
 
-// ==================== FIREWORKS ====================
-function initFireworks() {
-  const c = document.getElementById('fireworks');
-  const ctx = c.getContext('2d');
-  let W, H;
-  const rockets = [];
-  const particles = [];
-
-  function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const colors = ['#06d6f2', '#f0c040', '#ff3c78', '#8b5cf6', '#3b82f6', '#34d399'];
-
-  function launch() {
-    const x = Math.random() * W * 0.6 + W * 0.2;
-    rockets.push({
-      x, y: H,
-      tx: x + (Math.random() - 0.5) * 100,
-      ty: H * (0.15 + Math.random() * 0.25),
-      speed: 4 + Math.random() * 2,
-      trail: []
-    });
+// ===================== SHOOTING STARS =====================
+(function(){
+  function shootStar(){
+    const star = document.createElement('div');
+    star.className='shooting-star';
+    const top=Math.random()*50+'%';
+    const left=Math.random()*80+'%';
+    const angle=-15-Math.random()*30;
+    const dur=0.6+Math.random()*0.6;
+    star.style.cssText=`top:${top};left:${left};transform:rotate(${angle}deg);width:${80+Math.random()*100}px;animation:shootAnim ${dur}s ease-out forwards`;
+    document.body.appendChild(star);
+    setTimeout(()=>star.remove(), dur*1000+200);
   }
-
-  function explode(x, y) {
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const count = 60 + Math.floor(Math.random() * 40);
-    for (let i = 0; i < count; i++) {
-      const angle = (Math.PI * 2 / count) * i + Math.random() * 0.2;
-      const speed = 1 + Math.random() * 4;
-      particles.push({
-        x, y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 1,
-        decay: 0.008 + Math.random() * 0.012,
-        color,
-        size: 1.5 + Math.random() * 1.5
-      });
-    }
-  }
-
-  let lastLaunch = 0;
-  function animate(t) {
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = 'rgba(3,7,18,0.15)';
-    ctx.fillRect(0, 0, W, H);
-    ctx.globalCompositeOperation = 'lighter';
-
-    if (t - lastLaunch > 800 + Math.random() * 1500) {
-      launch();
-      if (Math.random() > 0.5) launch();
-      lastLaunch = t;
-    }
-
-    for (let i = rockets.length - 1; i >= 0; i--) {
-      const r = rockets[i];
-      const dx = r.tx - r.x, dy = r.ty - r.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 10) {
-        explode(r.x, r.y);
-        rockets.splice(i, 1);
-        continue;
-      }
-      r.x += (dx / dist) * r.speed;
-      r.y += (dy / dist) * r.speed;
-
-      ctx.beginPath();
-      ctx.arc(r.x, r.y, 2, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-
-      r.trail.push({ x: r.x, y: r.y, a: 1 });
-      if (r.trail.length > 10) r.trail.shift();
-      r.trail.forEach((p, idx) => {
-        const a = idx / r.trail.length * 0.5;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${a})`;
-        ctx.fill();
-      });
-    }
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.02;
-      p.vx *= 0.99;
-      p.life -= p.decay;
-      if (p.life <= 0) { particles.splice(i, 1); continue; }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = p.life;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
-}
-
-// ==================== PARALLAX SHAPES ====================
-(function() {
-  const layer = document.getElementById('parallaxLayer');
-  const shapes = [];
-  const count = 12;
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div');
-    el.classList.add('p-shape');
-    const size = 4 + Math.random() * 8;
-    el.style.width = size + 'px';
-    el.style.height = size + 'px';
-    el.style.left = Math.random() * 100 + '%';
-    el.style.top = Math.random() * 100 + '%';
-    el.style.background = ['var(--accent-cyan)','var(--accent-gold)','var(--accent-violet)'][Math.floor(Math.random()*3)];
-    layer.appendChild(el);
-    shapes.push({ el, depth: 0.02 + Math.random() * 0.06, ox: parseFloat(el.style.left), oy: parseFloat(el.style.top) });
-  }
-
-  let mx = 0.5, my = 0.5;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX / window.innerWidth;
-    my = e.clientY / window.innerHeight;
-  });
-
-  function animate() {
-    shapes.forEach(s => {
-      const dx = (mx - 0.5) * s.depth * 600;
-      const dy = (my - 0.5) * s.depth * 600;
-      s.el.style.transform = `translate(${dx}px, ${dy}px)`;
-    });
-    requestAnimationFrame(animate);
-  }
-  animate();
+  const style=document.createElement('style');
+  style.textContent=`@keyframes shootAnim{0%{opacity:0;transform:translateX(0) rotate(var(--a,-20deg))}10%{opacity:.9}100%{opacity:0;transform:translateX(300px) rotate(var(--a,-20deg))}}`;
+  document.head.appendChild(style);
+  setInterval(shootStar, 3000+Math.random()*4000);
+  setTimeout(shootStar, 2000);
 })();
 
-// ==================== SCROLL ANIMATIONS ====================
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      const delay = e.target.dataset.delay;
-      if (delay) {
-        e.target.style.transitionDelay = delay + 'ms';
-      }
-    }
+// ===================== HERO NAME ANIMATION =====================
+(function(){
+  const name = 'Long';
+  const el = document.getElementById('heroName');
+  const glow = el.querySelector('.hero-name-glow');
+  name.split('').forEach((ch,i)=>{
+    const span = document.createElement('span');
+    span.className='letter';
+    span.textContent=ch;
+    span.style.animationDelay=(2.6+i*0.12)+'s';
+    // Gradient on each letter
+    span.style.background='linear-gradient(135deg,#fff,var(--cyan),var(--gold),#fff)';
+    span.style.backgroundSize='300% 300%';
+    span.style.webkitBackgroundClip='text';
+    span.style.webkitTextFillColor='transparent';
+    span.style.backgroundClip='text';
+    span.style.animation=`letterIn .8s cubic-bezier(.16,1,.3,1) ${2.6+i*0.12}s forwards, nameGlow2 5s ease ${3.5+i*0.12}s infinite`;
+    el.insertBefore(span, glow);
   });
-}, { threshold: 0.15 });
+  const s2=document.createElement('style');
+  s2.textContent=`@keyframes nameGlow2{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}`;
+  document.head.appendChild(s2);
+})();
 
-document.querySelectorAll('.tribute-text, .wishes-label, .wishes-heading, .wish-card, .finale-content')
-  .forEach(el => observer.observe(el));
-
-// ==================== BIRTHDAY MUSIC (Web Audio API) ====================
-let audioCtx, isPlaying = false, musicTimeout;
-
-function toggleMusic() {
-  const btn = document.getElementById('musicBtn');
-  const label = document.getElementById('musicLabel');
-
-  if (isPlaying) {
-    isPlaying = false;
-    btn.classList.remove('playing');
-    label.textContent = 'Bật nhạc sinh nhật';
-    if (audioCtx) audioCtx.close();
-    audioCtx = null;
-    clearTimeout(musicTimeout);
-    return;
+// ===================== HERO COORDS TYPING =====================
+(function(){
+  const el = document.getElementById('heroCoords');
+  const text = '21.0285°N  105.8542°E  ·  HANOI  ·  '+new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
+  let i=0;
+  function type(){
+    if(i<=text.length){el.textContent=text.slice(0,i)+'█';i++;setTimeout(type,50)}
+    else el.textContent=text;
   }
+  setTimeout(type,4500);
+})();
 
-  isPlaying = true;
-  btn.classList.add('playing');
-  label.textContent = 'Tắt nhạc';
+// ===================== DATA STREAM =====================
+(function(){
+  const track=document.getElementById('dsTrack');
+  const items=[
+    'RESOLUTION <span class="val">0.3m</span>','BAND <span class="val">C / X / L</span>',
+    'ORBIT <span class="val">LEO 680km</span>','COVERAGE <span class="val">Global</span>',
+    'REVISIT <span class="val">Daily</span>','ACCURACY <span class="val">±2m CE90</span>',
+    'SWATH <span class="val">12km</span>','DATA <span class="val">2TB/day</span>',
+    'CONSTELLATION <span class="val">Active</span>','BIRTHDAY <span class="val">Today!</span>',
+    'SAR <span class="val">Enabled</span>','MULTISPECTRAL <span class="val">8-band</span>',
+    'HAPPY BIRTHDAY <span class="val">Dr. Long ♥</span>','STATUS <span class="val">Celebrating</span>',
+  ];
+  // Duplicate for seamless scroll
+  const all=[...items,...items,...items];
+  all.forEach(t=>{const d=document.createElement('div');d.className='ds-item';d.innerHTML=t;track.appendChild(d)});
+})();
 
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  playHappyBirthday();
+// ===================== SCROLL ANIMATIONS =====================
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('vis');
+  });
+},{threshold:0.12});
+document.querySelectorAll('[data-anim]').forEach(el=>obs.observe(el));
+
+// ===================== HOLOGRAPHIC CARD 3D TILT =====================
+(function(){
+  const card = document.querySelector('.holo-card-inner');
+  if(!card) return;
+  const parent = card.parentElement;
+  parent.addEventListener('mousemove', e=>{
+    const r=parent.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5;
+    const y=(e.clientY-r.top)/r.height-0.5;
+    card.style.transform=`rotateY(${x*20}deg) rotateX(${-y*15}deg)`;
+  });
+  parent.addEventListener('mouseleave',()=>{card.style.transform=''});
+})();
+
+// ===================== PRELOADER =====================
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('preloader').classList.add('gone'),2000);
+});
+
+// ===================== MUSIC (Web Audio API) =====================
+let audioCtx,isPlaying=false,musicTO;
+function toggleMusic(){
+  const btn=document.getElementById('mBtn'),lbl=document.getElementById('mLbl');
+  if(isPlaying){
+    isPlaying=false;btn.classList.remove('on');lbl.textContent='Bật nhạc sinh nhật';
+    if(audioCtx)audioCtx.close();audioCtx=null;clearTimeout(musicTO);return;
+  }
+  isPlaying=true;btn.classList.add('on');lbl.textContent='Đang phát...';
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  // Reverb
+  const convolver=audioCtx.createConvolver();
+  const revLen=audioCtx.sampleRate*1.5;
+  const revBuf=audioCtx.createBuffer(2,revLen,audioCtx.sampleRate);
+  for(let ch=0;ch<2;ch++){const d=revBuf.getChannelData(ch);for(let i=0;i<revLen;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/revLen,2.5)}
+  convolver.buffer=revBuf;
+  const revGain=audioCtx.createGain();revGain.gain.value=0.15;
+  convolver.connect(revGain).connect(audioCtx.destination);
+
+  playHB(convolver);
 }
 
-function playHappyBirthday() {
-  if (!audioCtx || !isPlaying) return;
-
-  const tempo = 400;
-  // Happy Birthday melody - note frequencies
-  const melody = [
-    // Happy birthday to you
-    { n: 'C4', d: 0.75 }, { n: 'C4', d: 0.25 }, { n: 'D4', d: 1 }, { n: 'C4', d: 1 }, { n: 'F4', d: 1 }, { n: 'E4', d: 2 },
-    // Happy birthday to you
-    { n: 'C4', d: 0.75 }, { n: 'C4', d: 0.25 }, { n: 'D4', d: 1 }, { n: 'C4', d: 1 }, { n: 'G4', d: 1 }, { n: 'F4', d: 2 },
-    // Happy birthday dear Long
-    { n: 'C4', d: 0.75 }, { n: 'C4', d: 0.25 }, { n: 'C5', d: 1 }, { n: 'A4', d: 1 }, { n: 'F4', d: 1 }, { n: 'E4', d: 1 }, { n: 'D4', d: 1 },
-    // Happy birthday to you
-    { n: 'Bb4', d: 0.75 }, { n: 'Bb4', d: 0.25 }, { n: 'A4', d: 1 }, { n: 'F4', d: 1 }, { n: 'G4', d: 1 }, { n: 'F4', d: 2 },
+function playHB(reverb){
+  if(!audioCtx||!isPlaying)return;
+  const bpm=110, beat=60/bpm;
+  const freq={C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,Bb4:466.16,B4:493.88,C5:523.25,D5:587.33};
+  const melody=[
+    ['C4',.75],['C4',.25],['D4',1],['C4',1],['F4',1],['E4',2],
+    ['C4',.75],['C4',.25],['D4',1],['C4',1],['G4',1],['F4',2],
+    ['C4',.75],['C4',.25],['C5',1],['A4',1],['F4',1],['E4',1],['D4',1],
+    ['Bb4',.75],['Bb4',.25],['A4',1],['F4',1],['G4',1],['F4',2]
+  ];
+  // Bass accompaniment (root notes)
+  const bass=[
+    ['F4',4,-.5],['C4',4,4-.5],['F4',4,8-.5],['C4',2,12-.5],['F4',2,14-.5],['Bb4',4,16-.5],['F4',2,20-.5],['C4',2,22-.5]
   ];
 
-  const noteFreq = {
-    'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23,
-    'G4': 392.00, 'A4': 440.00, 'Bb4': 466.16, 'C5': 523.25
-  };
+  let t=audioCtx.currentTime+0.15;
+  const masterGain=audioCtx.createGain();masterGain.gain.value=0.9;
+  masterGain.connect(audioCtx.destination);
+  masterGain.connect(reverb);
 
-  let time = audioCtx.currentTime + 0.1;
-
-  melody.forEach(note => {
-    const dur = note.d * (tempo / 1000);
-    
-    // Main tone - soft sine
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = noteFreq[note.n];
-    gain.gain.setValueAtTime(0, time);
-    gain.gain.linearRampToValueAtTime(0.12, time + 0.04);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + dur * 0.95);
-    osc.connect(gain).connect(audioCtx.destination);
-    osc.start(time);
-    osc.stop(time + dur);
-
-    // Soft harmonic overlay (triangle wave, octave up)
-    const osc2 = audioCtx.createOscillator();
-    const gain2 = audioCtx.createGain();
-    osc2.type = 'triangle';
-    osc2.frequency.value = noteFreq[note.n] * 2;
-    gain2.gain.setValueAtTime(0, time);
-    gain2.gain.linearRampToValueAtTime(0.03, time + 0.04);
-    gain2.gain.exponentialRampToValueAtTime(0.001, time + dur * 0.9);
-    osc2.connect(gain2).connect(audioCtx.destination);
-    osc2.start(time);
-    osc2.stop(time + dur);
-
-    time += dur;
+  melody.forEach(([note,dur])=>{
+    const d=dur*beat;
+    // Celesta-like sound (sine + slight overtone)
+    const osc=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    osc.type='sine';osc.frequency.value=freq[note];
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(0.14,t+0.03);
+    g.gain.exponentialRampToValueAtTime(0.001,t+d*0.92);
+    osc.connect(g).connect(masterGain);
+    osc.start(t);osc.stop(t+d);
+    // Soft overtone
+    const o2=audioCtx.createOscillator();const g2=audioCtx.createGain();
+    o2.type='triangle';o2.frequency.value=freq[note]*2;
+    g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(0.025,t+0.03);
+    g2.gain.exponentialRampToValueAtTime(0.001,t+d*0.85);
+    o2.connect(g2).connect(masterGain);
+    o2.start(t);o2.stop(t+d);
+    // Gentle chime
+    const o3=audioCtx.createOscillator();const g3=audioCtx.createGain();
+    o3.type='sine';o3.frequency.value=freq[note]*3;
+    g3.gain.setValueAtTime(0,t);g3.gain.linearRampToValueAtTime(0.008,t+0.02);
+    g3.gain.exponentialRampToValueAtTime(0.001,t+d*0.6);
+    o3.connect(g3).connect(masterGain);
+    o3.start(t);o3.stop(t+d);
+    t+=d;
   });
 
-  // Loop after melody ends
-  const totalDuration = melody.reduce((sum, n) => sum + n.d, 0) * (tempo / 1000);
-  musicTimeout = setTimeout(() => {
-    if (isPlaying) playHappyBirthday();
-  }, totalDuration * 1000 + 500);
+  // Bass (soft sub)
+  const t0=audioCtx.currentTime+0.15;
+  bass.forEach(([note,dur,offset])=>{
+    const d=dur*beat;const bt=t0+offset*beat;
+    const osc=audioCtx.createOscillator();const g=audioCtx.createGain();
+    osc.type='sine';osc.frequency.value=freq[note]/2;
+    g.gain.setValueAtTime(0,bt);g.gain.linearRampToValueAtTime(0.06,bt+0.05);
+    g.gain.exponentialRampToValueAtTime(0.001,bt+d*0.9);
+    osc.connect(g).connect(masterGain);
+    osc.start(bt);osc.stop(bt+d);
+  });
+
+  const totalDur=melody.reduce((s,n)=>s+n[1],0)*beat;
+  musicTO=setTimeout(()=>{if(isPlaying)playHB(reverb)},totalDur*1000+600);
 }
 
-// ==================== CURSOR SPARKLE (subtle) ====================
-document.addEventListener('mousemove', (() => {
-  let lastTime = 0;
-  return function(e) {
-    const now = Date.now();
-    if (now - lastTime < 80) return;
-    lastTime = now;
-
-    const spark = document.createElement('div');
-    spark.style.cssText = `
-      position: fixed;
-      left: ${e.clientX}px; top: ${e.clientY}px;
-      width: 3px; height: 3px;
-      border-radius: 50%;
-      background: var(--accent-cyan);
-      pointer-events: none;
-      z-index: 9998;
-      opacity: 0.6;
-      transition: all 0.6s ease;
-    `;
-    document.body.appendChild(spark);
-    requestAnimationFrame(() => {
-      spark.style.opacity = '0';
-      spark.style.transform = `translate(${(Math.random()-0.5)*30}px, ${(Math.random()-0.5)*30}px) scale(0)`;
-    });
-    setTimeout(() => spark.remove(), 700);
-  };
-})());
+// ===================== CURSOR SPARKLE =====================
+(function(){
+  let last=0;
+  document.addEventListener('mousemove',e=>{
+    const now=Date.now();if(now-last<60)return;last=now;
+    const s=document.createElement('div');
+    const colors=['var(--cyan)','var(--gold)','var(--violet)'];
+    s.style.cssText=`position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;border-radius:50%;background:${colors[Math.floor(Math.random()*3)]};pointer-events:none;z-index:9998;opacity:.7;transition:all .7s ease;`;
+    document.body.appendChild(s);
+    requestAnimationFrame(()=>{s.style.opacity='0';s.style.transform=`translate(${(Math.random()-.5)*40}px,${(Math.random()-.5)*40}px) scale(0)`});
+    setTimeout(()=>s.remove(),800);
+  });
+})();
 </script>
 </body>
 </html>
