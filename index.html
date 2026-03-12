@@ -522,6 +522,45 @@
       font-size: 14px;
     }
 
+    .music-toggle {
+      position: absolute;
+      top: 84px;
+      right: 24px;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(99,243,255,.18);
+      background: rgba(8,23,39,.62);
+      color: #ecf7ff;
+      font: inherit;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 0 18px rgba(99,243,255,.05);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .music-toggle:hover {
+      transform: translateY(-1px);
+      border-color: rgba(99,243,255,.34);
+      background: rgba(8,23,39,.74);
+    }
+
+    .music-toggle .music-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px var(--gold);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+
+    .music-toggle[data-state="on"] .music-dot {
+      background: var(--teal);
+      box-shadow: 0 0 12px var(--teal);
+    }
+
     .footer-note {
       position: absolute;
       left: 24px;
@@ -631,6 +670,11 @@
         <div class="topbar-text">Birthday Transmission • Remote Sensing Mode</div>
       </div>
 
+      <button class="music-toggle" id="musicToggle" type="button" data-state="off" aria-pressed="false">
+        <span class="music-dot"></span>
+        <span id="musicLabel">Bật nhạc nền</span>
+      </button>
+
       <div class="layout">
         <div class="hero">
           <div class="eyebrow">Signal locked on Long</div>
@@ -723,5 +767,137 @@
       </div>
     </section>
   </main>
+
+  <script>
+    (() => {
+      const btn = document.getElementById('musicToggle');
+      const label = document.getElementById('musicLabel');
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      let ctx;
+      let master;
+      let padGain;
+      let bassGain;
+      let lfo;
+      let noteTimers = [];
+      let running = false;
+
+      const padNotes = [261.63, 329.63, 392.0, 523.25];
+      const bassNotes = [65.41, 87.31, 98.0, 73.42];
+
+      function createTone(freq, type, gainValue) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.value = gainValue;
+        return { osc, gain };
+      }
+
+      function buildAudio() {
+        ctx = new AudioCtx();
+        master = ctx.createGain();
+        master.gain.value = 0.06;
+        master.connect(ctx.destination);
+
+        padGain = ctx.createGain();
+        padGain.gain.value = 0.0;
+        padGain.connect(master);
+
+        bassGain = ctx.createGain();
+        bassGain.gain.value = 0.0;
+        bassGain.connect(master);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 900;
+        filter.Q.value = 0.4;
+        padGain.connect(filter);
+        filter.connect(master);
+
+        const p1 = createTone(padNotes[0], 'sine', 0.18);
+        const p2 = createTone(padNotes[1], 'triangle', 0.12);
+        const p3 = createTone(padNotes[2], 'sine', 0.08);
+        [p1, p2, p3].forEach(t => {
+          t.osc.connect(t.gain);
+          t.gain.connect(padGain);
+          t.osc.start();
+        });
+
+        const bass = createTone(bassNotes[0], 'triangle', 0.22);
+        bass.osc.connect(bass.gain);
+        bass.gain.connect(bassGain);
+        bass.osc.start();
+
+        lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        lfo.frequency.value = 0.08;
+        lfoGain.gain.value = 110;
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+        lfo.start();
+
+        noteTimers.push(setInterval(() => {
+          if (!running) return;
+          const now = ctx.currentTime;
+          const note = padNotes[Math.floor(Math.random() * padNotes.length)];
+          const shimmer = ctx.createOscillator();
+          const shimmerGain = ctx.createGain();
+          shimmer.type = 'sine';
+          shimmer.frequency.setValueAtTime(note * 2, now);
+          shimmerGain.gain.setValueAtTime(0, now);
+          shimmerGain.gain.linearRampToValueAtTime(0.018, now + 0.4);
+          shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.6);
+          shimmer.connect(shimmerGain);
+          shimmerGain.connect(master);
+          shimmer.start(now);
+          shimmer.stop(now + 2.7);
+        }, 2200));
+
+        noteTimers.push(setInterval(() => {
+          if (!running) return;
+          const freq = bassNotes[Math.floor(Math.random() * bassNotes.length)];
+          bass.osc.frequency.linearRampToValueAtTime(freq, ctx.currentTime + 1.2);
+        }, 3600));
+      }
+
+      async function turnOn() {
+        if (!AudioCtx) {
+          label.textContent = 'Trình duyệt không hỗ trợ nhạc';
+          btn.disabled = true;
+          return;
+        }
+        if (!ctx) buildAudio();
+        if (ctx.state === 'suspended') await ctx.resume();
+        running = true;
+        padGain.gain.cancelScheduledValues(ctx.currentTime);
+        bassGain.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.setTargetAtTime(0.075, ctx.currentTime, 1.4);
+        padGain.gain.setTargetAtTime(0.65, ctx.currentTime, 2.8);
+        bassGain.gain.setTargetAtTime(0.24, ctx.currentTime, 2.2);
+        btn.dataset.state = 'on';
+        btn.setAttribute('aria-pressed', 'true');
+        label.textContent = 'Tắt nhạc nền';
+      }
+
+      function turnOff() {
+        if (!ctx) return;
+        running = false;
+        padGain.gain.setTargetAtTime(0.0, ctx.currentTime, 0.8);
+        bassGain.gain.setTargetAtTime(0.0, ctx.currentTime, 0.8);
+        master.gain.setTargetAtTime(0.0, ctx.currentTime, 1.0);
+        btn.dataset.state = 'off';
+        btn.setAttribute('aria-pressed', 'false');
+        label.textContent = 'Bật nhạc nền';
+      }
+
+      btn.addEventListener('click', async () => {
+        if (btn.dataset.state === 'on') turnOff();
+        else await turnOn();
+      });
+
+      window.addEventListener('beforeunload', () => noteTimers.forEach(clearInterval));
+    })();
+  </script>
 </body>
 </html>
