@@ -3,213 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Long | Remote Sensing Specialist</title>
-  <meta name="description" content="Website chúc mừng sinh nhật Long với phong cách hiện đại, cảm hứng viễn thám và công nghệ không gian." />
+  <title>Happy Birthday Long 🎉</title>
+  <meta name="description" content="Trang chúc mừng sinh nhật Long với hiệu ứng pháo hoa, confetti và nhạc Happy Birthday nhẹ nhàng." />
   <style>
     :root {
-      --bg-1: #03111f;
-      --bg-2: #071b30;
-      --bg-3: #0b2742;
-      --cyan: #63f3ff;
-      --teal: #27e6c1;
-      --blue: #6aa7ff;
-      --violet: #8b7bff;
+      --bg-1: #12061f;
+      --bg-2: #21103b;
+      --bg-3: #3a1764;
+      --pink: #ff6ec7;
+      --rose: #ff4fa3;
       --gold: #ffd166;
-      --pink: #ff7ac6;
-      --text: #ecf7ff;
-      --muted: rgba(236, 247, 255, 0.75);
-      --panel: rgba(8, 23, 39, 0.56);
-      --border: rgba(99, 243, 255, 0.18);
-      --shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+      --cyan: #6fe7ff;
+      --violet: #9f7bff;
+      --mint: #63f5c8;
+      --white: #fdfcff;
+      --panel: rgba(255,255,255,0.12);
+      --panel-strong: rgba(255,255,255,0.18);
+      --text-soft: rgba(255,255,255,0.82);
+      --shadow: 0 24px 80px rgba(0,0,0,0.38);
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body {
       min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 15% 20%, rgba(39, 230, 193, 0.12), transparent 0 25%),
-        radial-gradient(circle at 85% 15%, rgba(106, 167, 255, 0.16), transparent 0 28%),
-        radial-gradient(circle at 50% 80%, rgba(139, 123, 255, 0.12), transparent 0 24%),
-        linear-gradient(145deg, var(--bg-1), var(--bg-2) 40%, var(--bg-3));
       overflow-x: hidden;
       overflow-y: auto;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,110,199,.24), transparent 20%),
+        radial-gradient(circle at 85% 15%, rgba(111,231,255,.20), transparent 22%),
+        radial-gradient(circle at 50% 85%, rgba(255,209,102,.16), transparent 24%),
+        linear-gradient(140deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
     }
 
-    .stars,
-    .stars::before,
-    .stars::after {
+    .bg-glow, .bg-glow::before, .bg-glow::after {
       position: fixed;
       inset: 0;
       content: "";
-      background-repeat: repeat;
       pointer-events: none;
     }
 
-    .stars {
-      background-image:
-        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.65) 50%, transparent 51%),
-        radial-gradient(1.5px 1.5px at 75% 15%, rgba(99,243,255,.85) 50%, transparent 51%),
-        radial-gradient(1.5px 1.5px at 40% 70%, rgba(255,255,255,.8) 50%, transparent 51%),
-        radial-gradient(2px 2px at 85% 65%, rgba(255,209,102,.8) 50%, transparent 51%),
-        radial-gradient(1.5px 1.5px at 55% 35%, rgba(255,255,255,.7) 50%, transparent 51%);
-      opacity: .55;
-      animation: driftSlow 24s linear infinite;
-    }
-
-    .stars::before {
-      background-image:
-        radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,.55) 50%, transparent 51%),
-        radial-gradient(1px 1px at 65% 75%, rgba(99,243,255,.65) 50%, transparent 51%),
-        radial-gradient(1px 1px at 92% 35%, rgba(255,255,255,.6) 50%, transparent 51%),
-        radial-gradient(1px 1px at 33% 56%, rgba(139,123,255,.7) 50%, transparent 51%);
-      opacity: .45;
-      animation: driftSlow 36s linear infinite reverse;
-    }
-
-    .stars::after {
-      background-image:
-        radial-gradient(1px 1px at 12% 62%, rgba(255,255,255,.5) 50%, transparent 51%),
-        radial-gradient(1px 1px at 52% 22%, rgba(39,230,193,.65) 50%, transparent 51%),
-        radial-gradient(1px 1px at 78% 48%, rgba(255,255,255,.55) 50%, transparent 51%);
-      opacity: .35;
-      animation: pulseStars 5s ease-in-out infinite;
-    }
-
-    .aurora {
-      position: fixed;
-      inset: -20%;
+    .bg-glow {
       background:
-        radial-gradient(circle at 25% 40%, rgba(39,230,193,.16), transparent 18%),
-        radial-gradient(circle at 70% 30%, rgba(106,167,255,.14), transparent 20%),
-        radial-gradient(circle at 60% 75%, rgba(255,122,198,.10), transparent 16%);
-      filter: blur(45px);
-      animation: auroraMove 16s ease-in-out infinite alternate;
-      pointer-events: none;
+        radial-gradient(circle at 20% 30%, rgba(255,79,163,.18), transparent 18%),
+        radial-gradient(circle at 80% 20%, rgba(111,231,255,.16), transparent 18%),
+        radial-gradient(circle at 50% 80%, rgba(159,123,255,.14), transparent 20%);
+      filter: blur(40px);
+      animation: aurora 14s ease-in-out infinite alternate;
     }
 
-    .grid {
-      position: fixed;
-      inset: 0;
-      background:
-        linear-gradient(rgba(99,243,255,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99,243,255,.08) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.85) 20%, rgba(0,0,0,.65));
-      opacity: .22;
-      transform: perspective(1200px) rotateX(70deg) scale(1.7) translateY(16%);
-      transform-origin: center bottom;
-      pointer-events: none;
-    }
-
-    .scanline {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent, rgba(99,243,255,.14), transparent);
-      height: 24vh;
-      animation: scan 8s linear infinite;
-      pointer-events: none;
-      mix-blend-mode: screen;
+    .bg-glow::before {
+      background-image:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.7) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 30% 65%, rgba(255,255,255,.6) 50%, transparent 51%),
+        radial-gradient(2px 2px at 65% 25%, rgba(255,209,102,.8) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 85% 70%, rgba(111,231,255,.75) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 55% 45%, rgba(255,255,255,.7) 50%, transparent 51%);
+      opacity: .6;
+      animation: twinkle 5s ease-in-out infinite;
     }
 
     .wrap {
       position: relative;
       min-height: 100vh;
+      padding: 28px 18px 42px;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 28px;
-      isolation: isolate;
-      overflow: visible;
+      align-items: center;
     }
 
-    .halo {
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(99,243,255,.16), rgba(99,243,255,0));
-      filter: blur(18px);
-      animation: pulseHalo 5s ease-in-out infinite;
-      z-index: 0;
-    }
-
-    .orbital-ring,
-    .orbital-ring::before,
-    .orbital-ring::after {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(99,243,255,.16);
-      pointer-events: none;
-    }
-
-    .orbital-ring {
-      width: 560px;
-      height: 560px;
-      animation: rotateRing 18s linear infinite;
-      z-index: 0;
-    }
-
-    .orbital-ring::before,
-    .orbital-ring::after {
-      content: "";
-      inset: 34px;
-      border-color: rgba(106,167,255,.12);
-    }
-
-    .orbital-ring::after {
-      inset: 86px;
-      border-color: rgba(255,209,102,.12);
-    }
-
-    .satellite,
-    .satellite.small {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff, var(--cyan));
-      box-shadow: 0 0 18px rgba(99,243,255,.7);
-      z-index: 0;
-    }
-
-    .satellite {
-      animation: orbitA 14s linear infinite;
-    }
-
-    .satellite.small {
-      width: 10px;
-      height: 10px;
-      background: radial-gradient(circle at 35% 35%, #fff, var(--gold));
-      box-shadow: 0 0 14px rgba(255,209,102,.7);
-      animation: orbitB 11s linear infinite reverse;
-    }
-
-    .panel {
+    .shell {
       position: relative;
-      width: min(1120px, 100%);
-      min-height: 680px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-        var(--panel);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-      border-radius: 32px;
+      width: min(1180px, 100%);
       overflow: hidden;
-      z-index: 2;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05)),
+        var(--panel);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
     }
 
-    .panel::before {
+    .shell::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(99,243,255,.08), transparent 30%, transparent 70%, rgba(255,122,198,.06)),
-        radial-gradient(circle at 20% 15%, rgba(99,243,255,.12), transparent 20%),
-        radial-gradient(circle at 85% 80%, rgba(139,123,255,.10), transparent 18%);
+        linear-gradient(120deg, rgba(255,255,255,.06), transparent 18%, transparent 82%, rgba(255,255,255,.05)),
+        radial-gradient(circle at 15% 18%, rgba(255,255,255,.06), transparent 20%),
+        radial-gradient(circle at 82% 80%, rgba(255,255,255,.05), transparent 18%);
       pointer-events: none;
     }
 
@@ -217,9 +102,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
       padding: 18px 22px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.02);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
     }
 
     .dots { display: flex; gap: 8px; }
@@ -227,29 +113,30 @@
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      box-shadow: 0 0 10px currentColor;
+      box-shadow: 0 0 14px currentColor;
+      background: currentColor;
     }
-    .dot.red { color: #ff6b6b; background: currentColor; }
-    .dot.yellow { color: #ffd166; background: currentColor; }
-    .dot.green { color: #06d6a0; background: currentColor; }
+    .dot:nth-child(1) { color: #ff6b6b; }
+    .dot:nth-child(2) { color: #ffd166; }
+    .dot:nth-child(3) { color: #63f5c8; }
 
-    .topbar-text {
+    .topbar-title {
       font-size: 13px;
-      letter-spacing: .16em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(236,247,255,.72);
+      color: rgba(255,255,255,.7);
+      text-align: right;
     }
 
     .layout {
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 0;
-      min-height: calc(680px - 63px);
+      grid-template-columns: 1.1fr .9fr;
+      min-height: 760px;
     }
 
     .hero {
       position: relative;
-      padding: 56px 46px 44px;
+      padding: 56px 44px 92px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -262,196 +149,272 @@
       width: fit-content;
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(99,243,255,.18);
-      background: rgba(8, 23, 39, .45);
-      color: var(--cyan);
-      letter-spacing: .14em;
-      text-transform: uppercase;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
       font-size: 12px;
-      margin-bottom: 20px;
-      box-shadow: inset 0 0 24px rgba(99,243,255,.05);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: #ffe2f5;
+      margin-bottom: 22px;
+      box-shadow: inset 0 0 20px rgba(255,255,255,.04);
     }
 
     .eyebrow::before {
       content: "";
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: var(--teal);
-      box-shadow: 0 0 14px var(--teal);
-      animation: blink 1.6s ease-in-out infinite;
+      background: var(--gold);
+      box-shadow: 0 0 16px var(--gold);
+      animation: pulse 1.8s ease-in-out infinite;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(44px, 6vw, 78px);
-      line-height: .95;
-      letter-spacing: -.04em;
+      font-size: clamp(50px, 7vw, 92px);
+      line-height: .92;
+      letter-spacing: -.05em;
       text-wrap: balance;
     }
 
     .gradient {
       display: block;
-      background: linear-gradient(90deg, #fff, var(--cyan), var(--blue), var(--gold));
+      background: linear-gradient(90deg, #fff, #ffd7ef 24%, #ff9fd7 48%, #8fefff 72%, #ffe292 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 0 22px rgba(99,243,255,.16);
+      text-shadow: 0 0 30px rgba(255,255,255,.15);
     }
 
     .lead {
       margin: 22px 0 0;
       max-width: 680px;
-      color: var(--muted);
       font-size: clamp(18px, 2vw, 21px);
-      line-height: 1.7;
+      line-height: 1.8;
+      color: var(--text-soft);
     }
 
-    .tags {
+    .chips {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 28px;
+      margin-top: 26px;
     }
 
-    .tag {
+    .chip {
       padding: 10px 14px;
       border-radius: 999px;
-      font-size: 13px;
-      letter-spacing: .04em;
-      color: rgba(236,247,255,.92);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      box-shadow: inset 0 0 14px rgba(255,255,255,.03);
+      font-size: 14px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
     }
 
-    .message-box {
+    .wish {
       margin-top: 30px;
-      padding: 22px 22px 20px;
-      border-radius: 22px;
-      border: 1px solid rgba(99,243,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      max-width: 720px;
       position: relative;
+      border-radius: 26px;
+      padding: 22px 22px 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: inset 0 0 22px rgba(255,255,255,.03);
       overflow: hidden;
     }
 
-    .message-box::after {
+    .wish::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, transparent 25%, rgba(255,255,255,.06) 50%, transparent 75%);
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.10) 50%, transparent 70%);
       transform: translateX(-120%);
-      animation: sheen 5.5s linear infinite;
+      animation: shine 6s linear infinite;
     }
 
-    .message-box p {
+    .wish p {
       margin: 0;
-      color: rgba(236,247,255,.92);
-      line-height: 1.8;
       font-size: 17px;
+      line-height: 1.85;
+      color: rgba(255,255,255,.95);
+      position: relative;
+      z-index: 1;
     }
 
     .signature {
       margin-top: 20px;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      color: rgba(236,247,255,.88);
+      gap: 10px;
       font-size: 15px;
-      letter-spacing: .04em;
+      color: rgba(255,255,255,.88);
     }
-
     .signature strong { color: #fff; }
 
-    .hud {
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font: inherit;
+      color: #fff;
+      cursor: pointer;
+      transition: transform .2s ease, filter .2s ease, background .2s ease;
+      box-shadow: 0 14px 34px rgba(0,0,0,.24);
+    }
+
+    .button:hover { transform: translateY(-2px) scale(1.01); }
+    .button:active { transform: translateY(0) scale(.99); }
+
+    .music-btn {
+      background: linear-gradient(135deg, rgba(255,110,199,.96), rgba(159,123,255,.96));
+    }
+
+    .fire-btn {
+      background: linear-gradient(135deg, rgba(255,209,102,.96), rgba(255,79,163,.96));
+      color: #2d0b26;
+      font-weight: 700;
+    }
+
+    .panel-side {
       position: relative;
-      padding: 34px 28px;
-      border-left: 1px solid rgba(255,255,255,.08);
+      padding: 34px 26px 34px;
+      border-left: 1px solid rgba(255,255,255,.10);
       display: flex;
       flex-direction: column;
-      justify-content: center;
       gap: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
     }
 
     .card {
       position: relative;
-      border-radius: 24px;
-      border: 1px solid rgba(99,243,255,.12);
-      background: rgba(8, 23, 39, .48);
-      padding: 18px 18px 16px;
+      border-radius: 26px;
+      padding: 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.11);
       overflow: hidden;
-      box-shadow: inset 0 0 26px rgba(99,243,255,.03);
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(99,243,255,.05), transparent 30%);
-      pointer-events: none;
-    }
-
-    .card-label {
+    .card-title {
       font-size: 12px;
-      letter-spacing: .16em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(236,247,255,.64);
-      margin-bottom: 10px;
+      color: rgba(255,255,255,.66);
+      margin-bottom: 12px;
     }
 
-    .radar {
+    .cake-stage {
       position: relative;
-      aspect-ratio: 1;
-      width: min(100%, 320px);
-      margin: 6px auto 0;
-      border-radius: 50%;
-      border: 1px solid rgba(99,243,255,.22);
-      background:
-        radial-gradient(circle, rgba(39,230,193,.08), rgba(39,230,193,0) 58%),
-        repeating-radial-gradient(circle, rgba(99,243,255,.18) 0 2px, transparent 2px 52px),
-        linear-gradient(rgba(99,243,255,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99,243,255,.08) 1px, transparent 1px),
-        rgba(1,14,24,.82);
-      background-size: auto, auto, 100% 100%, 100% 100%, auto;
+      height: 320px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
       overflow: hidden;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
     }
 
-    .radar::before {
-      content: "";
+    .spotlight {
       position: absolute;
-      inset: -12%;
-      background: conic-gradient(from 0deg, transparent 0deg 300deg, rgba(99,243,255,.34) 332deg 360deg);
-      animation: rotateRing 4s linear infinite;
-      opacity: .9;
-    }
-
-    .radar::after {
-      content: "";
-      position: absolute;
-      inset: 50%;
-      width: 10px;
-      height: 10px;
-      translate: -50% -50%;
+      top: -20px;
+      width: 260px;
+      height: 260px;
       border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 16px var(--cyan);
+      background: radial-gradient(circle, rgba(255,255,255,.22), transparent 65%);
+      filter: blur(10px);
+      animation: pulse 4s ease-in-out infinite;
     }
 
-    .blip {
+    .cake {
+      position: relative;
+      width: 220px;
+      height: 184px;
+      margin-bottom: 24px;
+      animation: bob 3.2s ease-in-out infinite;
+    }
+
+    .layer {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 12px var(--gold);
-      animation: blip 2.8s ease-in-out infinite;
+      left: 50%;
+      translate: -50% 0;
+      border-radius: 22px;
+      box-shadow: inset 0 -8px 0 rgba(255,255,255,.12), 0 12px 24px rgba(0,0,0,.18);
     }
 
-    .blip.b1 { top: 24%; left: 65%; animation-delay: .2s; }
-    .blip.b2 { top: 58%; left: 24%; animation-delay: 1s; }
-    .blip.b3 { top: 70%; left: 68%; animation-delay: 1.6s; }
+    .layer.top {
+      bottom: 116px;
+      width: 122px;
+      height: 48px;
+      background: linear-gradient(180deg, #ffcae8, #ff92c9);
+    }
+
+    .layer.mid {
+      bottom: 64px;
+      width: 170px;
+      height: 60px;
+      background: linear-gradient(180deg, #ffd98a, #ffb84d);
+    }
+
+    .layer.base {
+      bottom: 0;
+      width: 220px;
+      height: 76px;
+      background: linear-gradient(180deg, #a98aff, #7d5ef2);
+    }
+
+    .icing {
+      position: absolute;
+      left: 50%;
+      translate: -50% 0;
+      height: 18px;
+      border-radius: 0 0 18px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.6));
+    }
+
+    .icing.top { bottom: 145px; width: 128px; }
+    .icing.mid { bottom: 100px; width: 176px; }
+    .icing.base { bottom: 54px; width: 226px; }
+
+    .candles {
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      translate: -50% 0;
+      display: flex;
+      gap: 22px;
+    }
+
+    .candle {
+      position: relative;
+      width: 10px;
+      height: 42px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #ffd9ec);
+      box-shadow: inset 0 0 0 2px rgba(255,110,199,.24);
+    }
+
+    .flame {
+      position: absolute;
+      left: 50%;
+      top: -16px;
+      translate: -50% 0;
+      width: 14px;
+      height: 20px;
+      border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+      background: radial-gradient(circle at 50% 30%, #fff9d2, #ffd166 45%, #ff7a00 70%, rgba(255,122,0,.2));
+      filter: blur(.2px);
+      transform-origin: center bottom;
+      animation: flame 1.1s ease-in-out infinite alternate;
+      box-shadow: 0 0 22px rgba(255,209,102,.75);
+    }
 
     .stats {
       display: grid;
@@ -460,55 +423,52 @@
     }
 
     .stat {
-      padding: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
+      padding: 15px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.11);
     }
 
-    .stat .value {
-      font-size: clamp(24px, 3vw, 34px);
-      font-weight: 700;
+    .stat-value {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 800;
       letter-spacing: -.03em;
-      color: #fff;
       margin-bottom: 6px;
     }
 
-    .stat .label {
+    .stat-label {
       font-size: 12px;
+      line-height: 1.55;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: rgba(236,247,255,.64);
-      line-height: 1.5;
+      color: rgba(255,255,255,.68);
     }
 
     .timeline {
       display: grid;
       gap: 12px;
-      margin-top: 4px;
     }
 
     .event {
       display: grid;
-      grid-template-columns: 46px 1fr;
+      grid-template-columns: 44px 1fr;
       gap: 12px;
       align-items: start;
-      padding: 12px 0;
-      border-top: 1px dashed rgba(255,255,255,.08);
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255,255,255,.12);
     }
 
-    .event:first-child { border-top: 0; padding-top: 0; }
+    .event:first-child { padding-top: 0; border-top: 0; }
 
-    .event .icon {
+    .event-icon {
       width: 42px;
       height: 42px;
       border-radius: 14px;
       display: grid;
       place-items: center;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.12);
       font-size: 18px;
-      background: rgba(99,243,255,.10);
-      border: 1px solid rgba(99,243,255,.14);
-      box-shadow: inset 0 0 16px rgba(99,243,255,.05);
     }
 
     .event strong {
@@ -519,244 +479,208 @@
     }
 
     .event span {
-      color: var(--muted);
-      line-height: 1.6;
       font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,.76);
     }
 
-    .music-toggle {
+    .footer {
       position: absolute;
-      top: 84px;
+      left: 24px;
       right: 24px;
-      z-index: 5;
-      display: inline-flex;
-      align-items: center;
+      bottom: 18px;
+      display: flex;
+      justify-content: space-between;
       gap: 10px;
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(99,243,255,.18);
-      background: rgba(8,23,39,.62);
-      color: #ecf7ff;
-      font: inherit;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 0 18px rgba(99,243,255,.05);
-      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.54);
     }
 
-    .music-toggle:hover {
-      transform: translateY(-1px);
-      border-color: rgba(99,243,255,.34);
-      background: rgba(8,23,39,.74);
+    #confetti {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 30;
     }
 
-    .music-toggle .music-dot {
+    .burst {
+      position: absolute;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 12px var(--gold);
-      animation: blink 1.4s ease-in-out infinite;
+      background: currentColor;
+      box-shadow: 0 0 20px currentColor;
+      animation: burst .9s ease-out forwards;
     }
 
-    .music-toggle[data-state="on"] .music-dot {
-      background: var(--teal);
-      box-shadow: 0 0 12px var(--teal);
+    @keyframes aurora {
+      from { transform: translate3d(-3%, -2%, 0) scale(1); }
+      to { transform: translate3d(3%, 2%, 0) scale(1.08); }
     }
 
-    .footer-note {
-      position: absolute;
-      left: 24px;
-      bottom: 18px;
-      right: 24px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      color: rgba(236,247,255,.55);
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+    @keyframes twinkle {
+      0%, 100% { opacity: .42; }
+      50% { opacity: .78; }
     }
 
-    @keyframes driftSlow {
-      from { transform: translateY(0); }
-      to { transform: translateY(-36px); }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: .82; }
+      50% { transform: scale(1.08); opacity: 1; }
     }
 
-    @keyframes pulseStars {
-      0%, 100% { opacity: .3; }
-      50% { opacity: .55; }
-    }
-
-    @keyframes auroraMove {
-      0% { transform: translate3d(-3%, -2%, 0) scale(1); }
-      100% { transform: translate3d(3%, 2%, 0) scale(1.08); }
-    }
-
-    @keyframes scan {
-      from { transform: translateY(-30vh); }
-      to { transform: translateY(130vh); }
-    }
-
-    @keyframes pulseHalo {
-      0%, 100% { transform: scale(1); opacity: .55; }
-      50% { transform: scale(1.08); opacity: .8; }
-    }
-
-    @keyframes rotateRing {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes orbitA {
-      from { transform: rotate(0deg) translateX(280px) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(280px) rotate(-360deg); }
-    }
-
-    @keyframes orbitB {
-      from { transform: rotate(360deg) translateX(220px) rotate(-360deg); }
-      to { transform: rotate(0deg) translateX(220px) rotate(0deg); }
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: .7; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.25); }
-    }
-
-    @keyframes sheen {
+    @keyframes shine {
       to { transform: translateX(120%); }
     }
 
-    @keyframes blip {
-      0%, 100% { transform: scale(1); opacity: .7; }
-      50% { transform: scale(1.8); opacity: 1; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes flame {
+      from { transform: translateX(-50%) rotate(-4deg) scale(1); }
+      to { transform: translateX(-50%) rotate(4deg) scale(1.08); }
+    }
+
+    @keyframes burst {
+      from { transform: translate(var(--x0), var(--y0)) scale(.4); opacity: 1; }
+      to { transform: translate(var(--x1), var(--y1)) scale(1.25); opacity: 0; }
     }
 
     @media (max-width: 980px) {
-      body { overflow: auto; }
-      .wrap { padding: 18px; }
-      .layout { grid-template-columns: 1fr; }
-      .hud { border-left: 0; border-top: 1px solid rgba(255,255,255,.08); }
-      .panel { min-height: auto; }
-      .music-toggle { position: sticky; top: 14px; right: auto; margin: 12px 0 0 auto; }
-      .footer-note { position: static; padding: 0 28px 20px; margin-top: -4px; flex-direction: column; }
-      .orbital-ring, .halo, .satellite, .satellite.small { display: none; }
+      .layout { grid-template-columns: 1fr; min-height: auto; }
+      .panel-side { border-left: 0; border-top: 1px solid rgba(255,255,255,.10); }
+      .hero { padding-bottom: 36px; }
+      .footer { position: static; padding: 0 24px 20px; flex-direction: column; }
     }
 
     @media (max-width: 640px) {
-      .hero { padding: 34px 22px 28px; }
-      .hud { padding: 24px 18px 26px; }
+      .wrap { padding: 14px 10px 24px; }
       .topbar { padding: 14px 16px; }
-      .message-box { padding: 18px; }
+      .hero { padding: 30px 18px 28px; }
+      .panel-side { padding: 20px 16px 22px; }
+      .topbar-title { font-size: 11px; }
+      .actions { flex-direction: column; }
+      .button { width: 100%; }
       .stats { grid-template-columns: 1fr; }
+      .cake-stage { height: 280px; }
+      .cake { transform: scale(.88); }
     }
   </style>
 </head>
 <body>
-  <div class="stars"></div>
-  <div class="aurora"></div>
-  <div class="grid"></div>
-  <div class="scanline"></div>
+  <canvas id="confetti"></canvas>
+  <div class="bg-glow"></div>
 
   <main class="wrap">
-    <div class="halo"></div>
-    <div class="orbital-ring"></div>
-    <div class="satellite"></div>
-    <div class="satellite small"></div>
-
-    <section class="panel">
+    <section class="shell">
       <div class="topbar">
         <div class="dots">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
         </div>
-        <div class="topbar-text">Birthday Transmission • Remote Sensing Mode</div>
+        <div class="topbar-title">Birthday Mode • Long Edition</div>
       </div>
 
-      <button class="music-toggle" id="musicToggle" type="button" data-state="off" aria-pressed="false">
-        <span class="music-dot"></span>
-        <span id="musicLabel">Bật nhạc nền</span>
-      </button>
-
       <div class="layout">
-        <div class="hero">
-          <div class="eyebrow">Signal locked on Long</div>
+        <section class="hero">
+          <div class="eyebrow">Hôm nay là ngày của Long ✨</div>
+
           <h1>
-            Chúc mừng sinh nhật
-            <span class="gradient">Long ✦ chuyên gia viễn thám</span>
+            Happy Birthday
+            <span class="gradient">Long 🎂🎉</span>
           </h1>
 
           <p class="lead">
-            Hôm nay không chỉ là một ngày sinh nhật bình thường — mà là ngày tôn vinh một người đang nhìn thế giới
-            từ một tầng quan sát cao hơn: sắc nét hơn, rộng hơn, và thú vị hơn.
+            Một trang nhỏ nhưng rực rỡ, để chúc Long có một tuổi mới thật nhiều sức khỏe,
+            niềm vui, may mắn và những điều tuyệt vời. Chúc mọi dự định đều hanh thông,
+            công việc ngày càng thăng hoa và cuộc sống lúc nào cũng có thật nhiều tiếng cười.
           </p>
 
-          <div class="tags">
-            <span class="tag">🛰 Viễn thám</span>
-            <span class="tag">🌍 Phân tích không gian</span>
-            <span class="tag">📡 Tín hiệu tốt</span>
-            <span class="tag">✨ Năng lượng tuổi mới</span>
+          <div class="chips">
+            <span class="chip">🎈 Vui vẻ hơn</span>
+            <span class="chip">🎁 May mắn hơn</span>
+            <span class="chip">🚀 Thành công hơn</span>
+            <span class="chip">🌟 Rực rỡ hơn</span>
           </div>
 
-          <div class="message-box">
+          <div class="wish">
             <p>
-              Chúc Long tuổi mới thật nhiều sức khỏe, nhiều cảm hứng, và thật nhiều dự án hay.
-              Mong rằng mỗi dữ liệu Long chạm tới đều mở ra thêm góc nhìn mới, mỗi bản đồ Long dựng lên
-              đều đưa Long đến gần hơn với những điều lớn lao mình đang theo đuổi.
-              Công việc ngày càng bay cao, cuộc sống ngày càng rực rỡ, và hành trình phía trước lúc nào cũng có thật nhiều tín hiệu đẹp.
+              Chúc Long tuổi mới luôn giữ được năng lượng tích cực, tinh thần thật sáng,
+              gặp nhiều người tốt, nhiều cơ hội hay và nhiều khoảnh khắc đáng nhớ.
+              Mong Long luôn hạnh phúc với những gì mình đang làm và sớm chạm tới tất cả mục tiêu mình mong muốn nhé.
             </p>
           </div>
 
           <div class="signature">
-            <span>Gửi từ</span>
-            <strong>anh Duy</strong>
-            <span>• Happy Birthday 🚀</span>
+            Từ <strong>anh Duy</strong> 💙 với thật nhiều lời chúc đẹp.
           </div>
-        </div>
 
-        <aside class="hud">
+          <div class="actions">
+            <button class="button music-btn" id="musicToggle" type="button">🎵 Bật nhạc Happy Birthday</button>
+            <button class="button fire-btn" id="fireBtn" type="button">🎆 Bắn pháo hoa cho Long</button>
+          </div>
+        </section>
+
+        <aside class="panel-side">
           <div class="card">
-            <div class="card-label">Orbital Birthday Scan</div>
-            <div class="radar">
-              <span class="blip b1"></span>
-              <span class="blip b2"></span>
-              <span class="blip b3"></span>
+            <div class="card-title">Birthday Centerpiece</div>
+            <div class="cake-stage">
+              <div class="spotlight"></div>
+              <div class="cake">
+                <div class="candles">
+                  <div class="candle"><div class="flame"></div></div>
+                  <div class="candle"><div class="flame"></div></div>
+                  <div class="candle"><div class="flame"></div></div>
+                </div>
+                <div class="layer top"></div>
+                <div class="icing top"></div>
+                <div class="layer mid"></div>
+                <div class="icing mid"></div>
+                <div class="layer base"></div>
+                <div class="icing base"></div>
+              </div>
             </div>
           </div>
 
           <div class="stats">
             <div class="stat">
-              <div class="value">100%</div>
-              <div class="label">Tín hiệu vui vẻ<br/>đã khóa mục tiêu</div>
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Năng lượng sinh nhật đang rực sáng</div>
             </div>
             <div class="stat">
-              <div class="value">∞</div>
-              <div class="label">Ý tưởng mới<br/>cho tuổi mới</div>
+              <div class="stat-value">∞</div>
+              <div class="stat-label">Lời chúc tốt đẹp cho tuổi mới</div>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-label">Mission Forecast</div>
+            <div class="card-title">Wish Timeline</div>
             <div class="timeline">
               <div class="event">
-                <div class="icon">🛰</div>
+                <div class="event-icon">🎂</div>
                 <div>
-                  <strong>Độ cao sự nghiệp tăng ổn định</strong>
-                  <span>Chúc Long ngày càng chắc tay chuyên môn, đi xa hơn với những dự án hay và có dấu ấn riêng.</span>
+                  <strong>Một ngày thật vui</strong>
+                  <span>Sinh nhật trọn niềm vui, nhiều tiếng cười và nhiều khoảnh khắc đáng nhớ cùng mọi người.</span>
                 </div>
               </div>
               <div class="event">
-                <div class="icon">🌌</div>
+                <div class="event-icon">🌟</div>
                 <div>
-                  <strong>Góc nhìn ngày càng rộng</strong>
-                  <span>Mong Long luôn giữ được sự sắc bén, tò mò và hứng thú với mọi lớp dữ liệu của thế giới.</span>
+                  <strong>Một tuổi mới thật sáng</strong>
+                  <span>Công việc thuận lợi, tinh thần tốt, và mọi dự định đều tiến về phía trước thật đẹp.</span>
                 </div>
               </div>
               <div class="event">
-                <div class="icon">🎂</div>
+                <div class="event-icon">🚀</div>
                 <div>
-                  <strong>Ngày sinh nhật thật đáng nhớ</strong>
-                  <span>Nhiều tiếng cười, nhiều lời chúc đẹp, nhiều khoảnh khắc vui cùng anh em đồng nghiệp và người thân.</span>
+                  <strong>Một năm bứt phá</strong>
+                  <span>Thêm thật nhiều trải nghiệm hay, cột mốc đẹp và những thành quả khiến Long tự hào.</span>
                 </div>
               </div>
             </div>
@@ -764,182 +688,211 @@
         </aside>
       </div>
 
-      <div class="footer-note">
-        <span>Modern animated birthday landing page</span>
-        <span>Designed for Long • Remote sensing inspired UI</span>
+      <div class="footer">
+        <span>Made for Long • Birthday Celebration</span>
+        <span>Animated with love, lights & fireworks</span>
       </div>
     </section>
   </main>
 
   <script>
     (() => {
-      const btn = document.getElementById('musicToggle');
-      const label = document.getElementById('musicLabel');
+      const musicBtn = document.getElementById('musicToggle');
+      const fireBtn = document.getElementById('fireBtn');
+      const canvas = document.getElementById('confetti');
+      const ctx2d = canvas.getContext('2d');
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      let ctx;
-      let master;
-      let reverb;
-      let playing = false;
-      let stopRequested = false;
-      let melodyRun = 0;
 
-      const NOTE = {
-        C4: 261.63,
-        D4: 293.66,
-        E4: 329.63,
-        F4: 349.23,
+      let particles = [];
+      let rafId;
+      let audioCtx;
+      let master;
+      let playing = false;
+      let stopLoop = false;
+      let loopId = 0;
+
+      const notes = {
         G4: 392.0,
         A4: 440.0,
-        Bb4: 466.16,
+        B4: 493.88,
         C5: 523.25,
         D5: 587.33,
+        E5: 659.25,
         F5: 698.46,
-        G5: 783.99,
-        A5: 880.0
+        G5: 783.99
       };
 
       const melody = [
-        ['G4', 0.42], ['G4', 0.22], ['A4', 0.66], ['G4', 0.66], ['C5', 0.66], ['B4', 1.0],
-        ['G4', 0.42], ['G4', 0.22], ['A4', 0.66], ['G4', 0.66], ['D5', 0.66], ['C5', 1.0],
-        ['G4', 0.42], ['G4', 0.22], ['G5', 0.66], ['E5', 0.66], ['C5', 0.66], ['B4', 0.66], ['A4', 1.0],
-        ['F5', 0.42], ['F5', 0.22], ['E5', 0.66], ['C5', 0.66], ['D5', 0.66], ['C5', 1.2]
+        ['G4', .42], ['G4', .22], ['A4', .66], ['G4', .66], ['C5', .66], ['B4', 1.0],
+        ['G4', .42], ['G4', .22], ['A4', .66], ['G4', .66], ['D5', .66], ['C5', 1.0],
+        ['G4', .42], ['G4', .22], ['G5', .66], ['E5', .66], ['C5', .66], ['B4', .66], ['A4', 1.0],
+        ['F5', .42], ['F5', .22], ['E5', .66], ['C5', .66], ['D5', .66], ['C5', 1.2]
       ];
 
-      function wait(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+      function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = innerWidth * dpr;
+        canvas.height = innerHeight * dpr;
+        canvas.style.width = innerWidth + 'px';
+        canvas.style.height = innerHeight + 'px';
+        ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
 
-      function buildAudio() {
-        ctx = new AudioCtx();
-        master = ctx.createGain();
-        master.gain.value = 0.0;
-        master.connect(ctx.destination);
-
-        reverb = ctx.createConvolver();
-        reverb.buffer = createImpulse(ctx, 1.8, 1.9);
-        const wet = ctx.createGain();
-        wet.gain.value = 0.22;
-        reverb.connect(wet);
-        wet.connect(master);
+      function random(min, max) {
+        return Math.random() * (max - min) + min;
       }
 
-      function createImpulse(audioCtx, duration, decay) {
-        const rate = audioCtx.sampleRate;
-        const length = rate * duration;
-        const impulse = audioCtx.createBuffer(2, length, rate);
-        for (let ch = 0; ch < 2; ch++) {
-          const channel = impulse.getChannelData(ch);
+      function spawnBurst(x = innerWidth / 2, y = innerHeight * 0.35, count = 70) {
+        const palette = ['#ff6ec7', '#ffd166', '#6fe7ff', '#63f5c8', '#ffffff', '#9f7bff'];
+        for (let i = 0; i < count; i++) {
+          const angle = random(0, Math.PI * 2);
+          const speed = random(2.2, 7.6);
+          particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: random(42, 76),
+            size: random(2, 5.8),
+            color: palette[(Math.random() * palette.length) | 0],
+            gravity: random(.04, .09),
+            drag: random(.986, .994)
+          });
+        }
+      }
+
+      function tick() {
+        ctx2d.clearRect(0, 0, innerWidth, innerHeight);
+        particles = particles.filter(p => p.life > 0);
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vx *= p.drag;
+          p.vy = p.vy * p.drag + p.gravity;
+          p.life -= 1;
+          ctx2d.globalAlpha = Math.max(p.life / 76, 0);
+          ctx2d.fillStyle = p.color;
+          ctx2d.beginPath();
+          ctx2d.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx2d.fill();
+        }
+        ctx2d.globalAlpha = 1;
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function initAudio() {
+        audioCtx = new AudioCtx();
+        master = audioCtx.createGain();
+        master.gain.value = 0;
+        master.connect(audioCtx.destination);
+      }
+
+      function impulseBuffer(duration = 1.6, decay = 2) {
+        const length = audioCtx.sampleRate * duration;
+        const buffer = audioCtx.createBuffer(2, length, audioCtx.sampleRate);
+        for (let c = 0; c < 2; c++) {
+          const data = buffer.getChannelData(c);
           for (let i = 0; i < length; i++) {
-            const n = Math.random() * 2 - 1;
-            channel[i] = n * Math.pow(1 - i / length, decay);
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
           }
         }
-        return impulse;
+        return buffer;
       }
 
-      function playBell(freq, start, duration) {
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
-        const gain = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
+      function playNote(freq, start, len) {
+        const oscA = audioCtx.createOscillator();
+        const oscB = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+        const reverb = audioCtx.createConvolver();
+        const wet = audioCtx.createGain();
 
-        osc1.type = 'sine';
-        osc2.type = 'triangle';
-        osc1.frequency.setValueAtTime(freq, start);
-        osc2.frequency.setValueAtTime(freq * 2, start);
+        oscA.type = 'sine';
+        oscB.type = 'triangle';
+        oscA.frequency.setValueAtTime(freq, start);
+        oscB.frequency.setValueAtTime(freq * 2, start);
 
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(2600, start);
-        filter.Q.value = 0.8;
+        filter.frequency.setValueAtTime(2400, start);
+        filter.Q.value = 0.7;
 
         gain.gain.setValueAtTime(0.0001, start);
-        gain.gain.linearRampToValueAtTime(0.12, start + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.03, start + duration * 0.45);
-        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration + 0.45);
+        gain.gain.linearRampToValueAtTime(0.13, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.028, start + len * 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + len + 0.45);
 
-        osc1.connect(filter);
-        osc2.connect(filter);
+        reverb.buffer = impulseBuffer();
+        wet.gain.value = 0.18;
+
+        oscA.connect(filter);
+        oscB.connect(filter);
         filter.connect(gain);
         gain.connect(master);
         gain.connect(reverb);
+        reverb.connect(wet);
+        wet.connect(master);
 
-        osc1.start(start);
-        osc2.start(start);
-        osc1.stop(start + duration + 0.5);
-        osc2.stop(start + duration + 0.5);
+        oscA.start(start);
+        oscB.start(start);
+        oscA.stop(start + len + 0.5);
+        oscB.stop(start + len + 0.5);
       }
 
-      function playPad(freq, start, duration) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq / 2, start);
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(900, start);
-
-        gain.gain.setValueAtTime(0.0001, start);
-        gain.gain.linearRampToValueAtTime(0.022, start + 0.25);
-        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration + 0.35);
-
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(master);
-
-        osc.start(start);
-        osc.stop(start + duration + 0.5);
-      }
-
-      async function playLoop() {
-        const runId = ++melodyRun;
-        while (playing && !stopRequested && runId === melodyRun) {
-          let pointer = ctx.currentTime + 0.08;
-          melody.forEach(([name, beats]) => {
-            const seconds = beats * 0.72;
-            playBell(NOTE[name], pointer, Math.max(0.22, seconds * 0.9));
-            if (['G4', 'C5', 'D5', 'F5'].includes(name)) {
-              playPad(NOTE[name], pointer, seconds + 0.3);
-            }
-            pointer += seconds;
+      async function playSong() {
+        const run = ++loopId;
+        while (playing && !stopLoop && run === loopId) {
+          let t = audioCtx.currentTime + 0.06;
+          melody.forEach(([note, beat]) => {
+            const len = beat * 0.72;
+            playNote(notes[note], t, Math.max(.24, len * .92));
+            t += len;
           });
-          await wait((pointer - ctx.currentTime) * 1000 + 240);
+          await new Promise(r => setTimeout(r, Math.max(300, (t - audioCtx.currentTime) * 1000 + 180)));
         }
       }
 
-      async function turnOn() {
+      async function toggleMusic() {
         if (!AudioCtx) {
-          label.textContent = 'Trình duyệt không hỗ trợ nhạc';
-          btn.disabled = true;
+          musicBtn.textContent = 'Trình duyệt không hỗ trợ nhạc';
           return;
         }
-        if (!ctx) buildAudio();
-        if (ctx.state === 'suspended') await ctx.resume();
-        stopRequested = false;
-        playing = true;
-        master.gain.cancelScheduledValues(ctx.currentTime);
-        master.gain.setTargetAtTime(0.24, ctx.currentTime, 0.6);
-        btn.dataset.state = 'on';
-        btn.setAttribute('aria-pressed', 'true');
-        label.textContent = 'Tắt nhạc nền';
-        playLoop();
+
+        if (!audioCtx) initAudio();
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+        if (!playing) {
+          playing = true;
+          stopLoop = false;
+          master.gain.cancelScheduledValues(audioCtx.currentTime);
+          master.gain.setTargetAtTime(0.23, audioCtx.currentTime, 0.35);
+          musicBtn.textContent = '🔇 Tắt nhạc Happy Birthday';
+          playSong();
+        } else {
+          playing = false;
+          stopLoop = true;
+          master.gain.cancelScheduledValues(audioCtx.currentTime);
+          master.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.25);
+          musicBtn.textContent = '🎵 Bật nhạc Happy Birthday';
+        }
       }
 
-      function turnOff() {
-        if (!ctx) return;
-        stopRequested = true;
-        playing = false;
-        master.gain.cancelScheduledValues(ctx.currentTime);
-        master.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.35);
-        btn.dataset.state = 'off';
-        btn.setAttribute('aria-pressed', 'false');
-        label.textContent = 'Bật nhạc nền';
+      function fireShow() {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            spawnBurst(random(innerWidth * 0.12, innerWidth * 0.88), random(innerHeight * 0.16, innerHeight * 0.55), 78);
+          }, i * 220);
+        }
       }
 
-      btn.addEventListener('click', async () => {
-        if (btn.dataset.state === 'on') turnOff();
-        else await turnOn();
-      });
+      resizeCanvas();
+      tick();
+      spawnBurst(innerWidth * 0.2, innerHeight * 0.24, 42);
+      spawnBurst(innerWidth * 0.78, innerHeight * 0.22, 42);
+
+      musicBtn.addEventListener('click', toggleMusic);
+      fireBtn.addEventListener('click', fireShow);
+      window.addEventListener('resize', resizeCanvas);
+      setInterval(() => spawnBurst(random(innerWidth * 0.15, innerWidth * 0.85), random(innerHeight * 0.18, innerHeight * 0.42), 22), 4200);
     })();
   </script>
 </body>
